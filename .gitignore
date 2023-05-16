@@ -63,4 +63,5 @@ yarn-error.log
 .metro-health-check*
 
 # Temporary files created by React Native Tools
+.vscode
 .vscode/.react

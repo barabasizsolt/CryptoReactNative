@@ -1,11 +1,26 @@
-import LoadingIndicator from './src/feature/catalog/LoadingIndicator';
-import ExploreScreen from './src/feature/screen/ExploreScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import ExploreScreen from './src/feature/screen/CryptoCurrencyScreen';
+import { ContentColorProvider } from './src/feature/theme/ContentColorContext';
+import { ThemeProvider, useNavigationTheme } from './src/feature/theme/ThemeContext';
 
 const App = (): JSX.Element => {
-  return(
-    ExploreScreen()
-    //LoadingIndicator()
+    return(
+        <ThemeProvider>
+            <ThemedNavigationContainer/>
+        </ThemeProvider>
     )
 }
 
-export default App;
+const ThemedNavigationContainer = () => {
+    const navigationTheme = useNavigationTheme()
+    return (
+        <ContentColorProvider contentColor={navigationTheme.colors.text}>
+            <NavigationContainer theme={navigationTheme}>
+                {/* <AppRootNavigationStacks /> */}
+                <ExploreScreen/>
+            </NavigationContainer>
+        </ContentColorProvider>
+    )
+}
+
+export default App

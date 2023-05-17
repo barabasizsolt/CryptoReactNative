@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 
 interface CardProps {
-    style?: StyleProp<ViewStyle> | undefined;
+    style?: StyleProp<ViewStyle> | undefined,
     children: ReactNode;
 }
 
@@ -23,4 +23,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Card;
+export default Card

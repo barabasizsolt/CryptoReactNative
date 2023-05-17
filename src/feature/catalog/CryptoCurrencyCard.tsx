@@ -68,14 +68,14 @@ const CryptoCurrencyDetails = (props: CryptoCurrencyProps): JSX.Element => {
 
     return(
         <View style={[styles.detailContainer, { padding: dimensions.contentPadding } ]}>
-            <View style={[styles.detailItemValueHolder, { paddingEnd: dimensions.smallPadding } ]}>
+            <View style={[styles.detailItemHolder, { paddingEnd: dimensions.smallPadding } ]}>
                 <Text style={[typography.smallLabel, styles.itemValue, { color: parseFloat(props.change) < 0 ? 'red' : 'green' } ]}>
                     {parseFloat(props.change) < 0 ? `${props.change}%` : `+${props.change}%` }
                 </Text>
                 <Text style={[typography.smallLabel, styles.itemValue]}>{props.volume}</Text>
                 <Text style={[typography.smallLabel, styles.itemValue]}>{props.marketCap}</Text>
             </View>
-            <View style={styles.detailItemNameHolder}>
+            <View style={styles.detailItemHolder}>
                 <Text style={[typography.smallLabel, styles.itemName]}>24h</Text>
                 <Text style={[typography.smallLabel, styles.itemName]}>Vol</Text>
                 <Text style={[typography.smallLabel, styles.itemName]}>Cap</Text>
@@ -121,14 +121,8 @@ const styles = StyleSheet.create({
     detailContainer: {
         flexDirection: 'row'
     },
-    detailItemNameHolder: {
+    detailItemHolder: {
         flexDirection: 'column',
-        direction: 'ltr',
-        justifyContent: 'space-evenly'
-    },
-    detailItemValueHolder: {
-        flexDirection: 'column',
-        direction: 'rtl',
         justifyContent: 'space-evenly'
     },
 

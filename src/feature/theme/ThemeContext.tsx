@@ -28,9 +28,9 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 }
 
 type ThemeOverlayProps = {
-    themeOverlay: Theme;
+    themeOverlay: Theme,
     children?: React.ReactNode
-};
+}
   
 export const ThemeOverlay = ({ themeOverlay, children }: ThemeOverlayProps) => {
     return <ThemeContext.Provider value={themeOverlay}>{children}</ThemeContext.Provider>

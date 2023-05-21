@@ -16,7 +16,7 @@ export type CryptoCurrencyDto = Yup.InferType<typeof CryptoCurrencyValidationSch
 
 export function convertToCryptoCurrency(dto: CryptoCurrencyDto): CryptoCurrency {
     return {
-        uuid: dto.id.toString(),
+        id: dto.id.toString(),
         symbol: dto.symbol?.toUpperCase() ?? '',
         name: dto.name ?? '',
         iconUrl: dto.image ?? '',

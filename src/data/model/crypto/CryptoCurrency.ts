@@ -1,5 +1,7 @@
-export interface CryptoCurrency {
-    uuid: string;
+import { ListItem } from "../ListItem";
+
+export interface CryptoCurrency extends ListItem {
+    id: string;
     symbol: string;
     name: string;
     iconUrl: string;

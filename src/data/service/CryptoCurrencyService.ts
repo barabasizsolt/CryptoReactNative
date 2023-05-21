@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios"
 import axiosInstance from "../Network"
-import { CryptoCurrency } from "../model/CryptoCurrency"
-import { convertToCryptoCurrency, CryptoCurrencyDto } from "../model/CryptoCurrencyDto"
+import { CryptoCurrency } from "../model/crypto/CryptoCurrency"
+import { CryptoCurrencyDto, convertToCryptoCurrency } from "../model/crypto/CryptoCurrencyDto"
 
 export let fetchCryptoCurrencies = (vsCurrency: string = "usd"): Promise<AxiosResponse<Array<CryptoCurrency>>> => axiosInstance.get(
     'coins/markets',

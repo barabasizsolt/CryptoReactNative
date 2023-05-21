@@ -1,5 +1,4 @@
 import React from "react"
-import { TouchableOpacity } from "react-native"
 import { Image, StyleSheet, Text, View } from "react-native"
 import { useAppTheme } from "../theme/ThemeContext"
 import Card from "./Card"
@@ -16,10 +15,10 @@ type CryptoCurrencyProps = {
 
 const CryptoCurrencyCard = (props: CryptoCurrencyProps): JSX.Element => {
     return(
-        <TouchableOpacity style={styles.container}>
+        <View style={styles.container}>
             <CryptoCurrencyHolder {...props} />
             <CryptoCurrencyPrice {...props} />
-        </TouchableOpacity>
+        </View>
     )
 }
 

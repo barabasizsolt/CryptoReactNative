@@ -1,4 +1,10 @@
 {
   "name": "CryptoReactNative",
-  "displayName": "CryptoReactNative"
+  "displayName": "CryptoReactNative",
+  "android": {
+    "package": "com.brbsy.cryptoreactnative"
+  },
+  "ios": {
+    "bundleIdentifier": "com.brbsy.cryptoreactnative"
+  }
 }

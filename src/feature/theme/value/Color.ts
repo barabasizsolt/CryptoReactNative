@@ -16,7 +16,10 @@ const colors = {
     blueGrey200: '#B0BEC5FF',
     blueGrey800: '#37474FFF',
     blackOverlay: '#00000090',
-    whiteOverlay: '#FFFFFF80'
+    whiteOverlay: '#FFFFFF80',
+    lightgrey: '#D3D3D3',
+    dimgray: '#696969',
+    orange: '#FF8C00'
 } 
 
 export type ColorTheme = {
@@ -36,7 +39,9 @@ export type ColorTheme = {
     selection: ColorValue;
     rippleColor: ColorValue;
     placeholderColor: ColorValue;
-    overlay: ColorValue
+    overlay: ColorValue,
+    bottomNavSelected: string,
+    bottomNavNotSelected: string,
 }
 
 export const LightColorTheme: ColorTheme = {
@@ -56,7 +61,9 @@ export const LightColorTheme: ColorTheme = {
     border: colors.blueGrey800,
     rippleColor: colors.blackOverlay,
     placeholderColor: colors.blueGrey800,
-    overlay: colors.blackOverlay
+    overlay: colors.blackOverlay,
+    bottomNavSelected: colors.orange,
+    bottomNavNotSelected: colors.dimgray
 }
   
 export const DarkColorTheme: ColorTheme = {
@@ -76,7 +83,9 @@ export const DarkColorTheme: ColorTheme = {
     selection: colors.whiteOverlay,
     rippleColor: colors.whiteOverlay,
     placeholderColor: colors.blueGrey800,
-    overlay: colors.blackOverlay
+    overlay: colors.blackOverlay,
+    bottomNavSelected: colors.orange,
+    bottomNavNotSelected: colors.lightgrey
 }
   
   

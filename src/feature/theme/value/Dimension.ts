@@ -17,5 +17,5 @@ export const StandardDimension: Dimension = {
     contentPadding: 8,
     screenPadding: 20,
     logoSize: 48,
-    bottomNavBarHeight: 58
+    bottomNavBarHeight: 56
 }

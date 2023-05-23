@@ -9,6 +9,7 @@ import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import { Text } from 'react-native';
+import { WindowClassProvider } from '../components/windowsize/windowSizeContext';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,11 +17,13 @@ export const ThemedNavigationContainer = () => {
     const navigationTheme = useNavigationTheme()
     return (
         <ContentColorProvider contentColor={navigationTheme.colors.text}>
-            <SafeAreaProvider>
-                <NavigationContainer theme={navigationTheme}>
-                        <Tabs/>
-                </NavigationContainer>
-            </SafeAreaProvider>
+                <WindowClassProvider>
+                    <SafeAreaProvider>
+                        <NavigationContainer theme={navigationTheme}>
+                                <Tabs/>
+                        </NavigationContainer>
+                    </SafeAreaProvider>
+                </WindowClassProvider>
         </ContentColorProvider>
     )
 }
@@ -45,7 +48,7 @@ const Tabs = () => {
                 name="CryptoScreen"
                 component={ CryptoCurrencyScreen }
                 options={{
-                    tabBarLabel: ({ color }) => <TabBarLabel name="Market" color={color} />,
+                    tabBarLabel: ({ color }) => <TabBarLabel name="Market" color={color}/>,
                     tabBarIcon: ({ color, size }) => (<Fontisto name="bitcoin" color={color} size={size} />)
                 }}
             />
@@ -53,7 +56,7 @@ const Tabs = () => {
                 name="NewsScreen"
                 component={ NewsScreen }
                 options={{
-                    tabBarLabel: ({ color }) => <TabBarLabel name="News" color={color} />,
+                    tabBarLabel: ({ color }) => <TabBarLabel name="News" color={color}/>,
                     tabBarIcon: ({ color, size }) => (<MaterialCommunityIcons name="newspaper" color={color} size={size} />)
                 }}
             />
@@ -63,10 +66,10 @@ const Tabs = () => {
 
 type TabBarLabelProps = {
     name: string,
-    color: string,
+    color: string
 }
 
 const TabBarLabel = (props: TabBarLabelProps): JSX.Element => {
-    const { typography } = useAppTheme()
-    return (<Text style={[typography.smallLabel, { color: props.color, paddingBottom: 6 }]}>{props.name}</Text>)
+    const { typography, dimensions } = useAppTheme()
+    return ( <Text style={[typography.smallLabel, { color: props.color, paddingBottom: dimensions.smallPadding}]}>{props.name}</Text>)
 }

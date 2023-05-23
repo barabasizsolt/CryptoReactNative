@@ -30,7 +30,8 @@ export const EdgeToEdgeScrollableContent = (props: EdgeToEdgeScrollableContent):
                 numColumns={ 1 }
                 keyExtractor={ (item) => item.id }
                 contentContainerStyle={ { paddingHorizontal: dimensions.contentPadding, backgroundColor: colors.background } } 
-                ItemSeparatorComponent={ itemSeparator }    
+                ItemSeparatorComponent={ itemSeparator }  
+                showsVerticalScrollIndicator={ false }  
             />
         )
     }

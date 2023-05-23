@@ -2,6 +2,7 @@ import React from "react"
 import { Image, StyleSheet, Text, View } from "react-native"
 import { useAppTheme } from "../theme/ThemeContext"
 import Card from "./Card"
+import { AnimatedPressable } from "../components/touch/AnimatedPressable"
 
 type CryptoCurrencyProps = {
     name: string,
@@ -14,11 +15,16 @@ type CryptoCurrencyProps = {
 }
 
 const CryptoCurrencyCard = (props: CryptoCurrencyProps): JSX.Element => {
+    const { colors, shapes } = useAppTheme()
+    
     return(
-        <View style={styles.container}>
+        <AnimatedPressable 
+            overlayViewStyle={[styles.container, { borderRadius: shapes.small }]} 
+            android_ripple={{ color: colors.rippleColor }} 
+            onPress={() => void 0} >
             <CryptoCurrencyHolder {...props} />
             <CryptoCurrencyPrice {...props} />
-        </View>
+        </AnimatedPressable>
     )
 }
 
@@ -34,7 +40,7 @@ const CryptoCurrencyHolder = (props: CryptoCurrencyProps): JSX.Element => {
 }
 
 const CryptoCurrencyLogo = (props: CryptoCurrencyProps): JSX.Element => {
-    const { dimensions, typography } = useAppTheme()
+    const { dimensions, typography, colors } = useAppTheme()
 
     return(
         <View style={[styles.logoContainer, { padding: dimensions.contentPadding }]}>
@@ -43,7 +49,7 @@ const CryptoCurrencyLogo = (props: CryptoCurrencyProps): JSX.Element => {
                     source={{ uri: props.logoUrl }}
                     style={{ width: dimensions.logoSize, height: dimensions.logoSize, margin: dimensions.smallPadding }}
                 />
-                <Text style={[typography.smallLabel]}>{props.symbol}</Text>
+                <Text style={[typography.smallLabel, { color: colors.onSurfaceSecondary }]}>{props.symbol}</Text>
             </View>
             <Text style={[typography.smallLabel, { fontWeight: 'bold' }]}>{props.name}</Text>
         </View>
@@ -63,16 +69,16 @@ const CryptoCurrencyPrice = (props: CryptoCurrencyProps): JSX.Element => {
 }
 
 const CryptoCurrencyDetails = (props: CryptoCurrencyProps): JSX.Element => {
-    const { dimensions, typography } = useAppTheme()
+    const { dimensions, typography, colors } = useAppTheme()
 
     return(
         <View style={[styles.detailContainer, { padding: dimensions.contentPadding } ]}>
             <View style={[styles.detailItemHolder, { paddingEnd: dimensions.smallPadding } ]}>
-                <Text style={[typography.smallLabel, styles.itemValue, { color: parseFloat(props.change) < 0 ? 'red' : 'green' } ]}>
-                    {parseFloat(props.change) < 0 ? `${props.change}%` : `+${props.change}%` }
+                <Text style={[typography.smallLabel, styles.itemValue, { color: parseFloat(props.change) <= 0.00 ? 'red' : 'green' } ]}>
+                    {parseFloat(props.change) <= 0.00 ? `${props.change}%` : `+${props.change}%` }
                 </Text>
-                <Text style={[typography.smallLabel, styles.itemValue]}>{props.volume}</Text>
-                <Text style={[typography.smallLabel, styles.itemValue]}>{props.marketCap}</Text>
+                <Text style={[typography.smallLabel, styles.itemValue, { color: colors.onSurfaceSecondary }]}>{props.volume}</Text>
+                <Text style={[typography.smallLabel, styles.itemValue, { color: colors.onSurfaceSecondary }]}>{props.marketCap}</Text>
             </View>
             <View style={styles.detailItemHolder}>
                 <Text style={[typography.smallLabel, styles.itemName]}>24h</Text>

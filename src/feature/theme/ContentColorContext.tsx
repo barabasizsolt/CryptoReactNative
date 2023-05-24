@@ -1,20 +1,21 @@
 import React, { useContext } from 'react';
 import { ColorValue } from 'react-native/types';
 
-export const ContentColorContext = React.createContext<any>(null)
+export const ContentColorContext = React.createContext<any>(null);
 
-export const useContentColor = () => useContext<ColorValue>(ContentColorContext)
+export const useContentColor = () =>
+  useContext<ColorValue>(ContentColorContext);
 
 type ContentColorProviderProps = {
-    children?: React.ReactNode;
-    contentColor: ColorValue
-}
+  children?: React.ReactNode;
+  contentColor: ColorValue;
+};
 
 export const ContentColorProvider = ({
-    children,
-    contentColor,
+  children,
+  contentColor,
 }: ContentColorProviderProps) => {
-    return (
-        <ContentColorContext.Provider value={contentColor} children={children} />
-    )
-}
+  return (
+    <ContentColorContext.Provider value={contentColor} children={children} />
+  );
+};

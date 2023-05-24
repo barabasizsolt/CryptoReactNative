@@ -10,27 +10,30 @@ import { AppNavParamList } from './types';
 import BottomTabNavigator from './BottomNavigation';
 
 export const ThemedNavigationContainer = () => {
-    const navigationTheme = useNavigationTheme()
-    return (
-        <ContentColorProvider contentColor={navigationTheme.colors.text}>
-                <WindowClassProvider>
-                    <SafeAreaProvider>
-                        <NavigationContainer theme={navigationTheme}>
-                                <StackNavigator/>
-                        </NavigationContainer>
-                    </SafeAreaProvider>
-                </WindowClassProvider>
-        </ContentColorProvider>
-    )
-}
+  const navigationTheme = useNavigationTheme();
+  return (
+    <ContentColorProvider contentColor={navigationTheme.colors.text}>
+      <WindowClassProvider>
+        <SafeAreaProvider>
+          <NavigationContainer theme={navigationTheme}>
+            <StackNavigator />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </WindowClassProvider>
+    </ContentColorProvider>
+  );
+};
 
-const Stack = createStackNavigator<AppNavParamList>()
+const Stack = createStackNavigator<AppNavParamList>();
 
 const StackNavigator = () => {
-    return(
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name='BottomNav' component={ BottomTabNavigator } />
-            <Stack.Screen name='CryptoCurrencyDetail' component={ CryptoCurrencyDetailScreen } />
-        </Stack.Navigator>
-    )
-}
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="BottomNav" component={BottomTabNavigator} />
+      <Stack.Screen
+        name="CryptoCurrencyDetail"
+        component={CryptoCurrencyDetailScreen}
+      />
+    </Stack.Navigator>
+  );
+};

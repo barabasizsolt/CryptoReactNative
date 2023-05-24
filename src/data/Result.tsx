@@ -9,7 +9,7 @@ export type Result<T> =
     | { kind: ResultType.Failure, errorMessage: any }
 
 export const wrapToResult = async<T, R> (
-    func: () => Promise<AxiosResponse<T>>,
+    func: (...params: any[]) => Promise<AxiosResponse<T>>,
     dataConverter: (result: T) => R
 ): Promise<Result<R>> => {
     try {

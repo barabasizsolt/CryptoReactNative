@@ -7,7 +7,8 @@ import { ListItem } from "../../data/model/ListItem";
 export type EdgeToEdgeScrollableContent = {
     isLoading: boolean,
     listItems:  ArrayLike<ListItem> | null | undefined,
-    renderItem: ListRenderItem<ListItem> | null | undefined
+    renderItem: ListRenderItem<ListItem> | null | undefined,
+    showPadding: boolean
 }
 
 export const EdgeToEdgeScrollableContent = (props: EdgeToEdgeScrollableContent): JSX.Element => {
@@ -29,7 +30,10 @@ export const EdgeToEdgeScrollableContent = (props: EdgeToEdgeScrollableContent):
                 ListFooterComponent={ footer }
                 numColumns={ 1 }
                 keyExtractor={ (item) => item.id }
-                contentContainerStyle={ { paddingHorizontal: dimensions.contentPadding, backgroundColor: colors.background } } 
+                contentContainerStyle={ { 
+                    paddingHorizontal: props.showPadding ? dimensions.contentPadding : 0, 
+                    backgroundColor: colors.background
+                } } 
                 ItemSeparatorComponent={ itemSeparator }  
                 showsVerticalScrollIndicator={ false }  
             />

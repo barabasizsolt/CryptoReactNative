@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { Result, ResultType } from "../../data/Result";
-import { CryptoCurrency } from "../../data/model/crypto/CryptoCurrency";
-import { getCryptoCurrencies } from "../../domain/CryptoCurrencyUseCase";
-import CryptoCurrencyCard from "../catalog/CryptoCurrencyCard";
-import { formatCompactDollarValue, formatDollarValue } from "../../data/util/Converter";
-import { EdgeToEdgeScrollableContent } from "../catalog/EdgeToEdgeScrollableContent";
+import { Result, ResultType } from "../../../data/Result";
+import { CryptoCurrency } from "../../../data/model/crypto/CryptoCurrency";
+import { getCryptoCurrencies } from "../../../domain/CryptoCurrencyUseCase";
+import CryptoCurrencyCard from "../../catalog/CryptoCurrencyCard";
+import { formatCompactDollarValue, formatDollarValue } from "../../../data/util/Converter";
+import { EdgeToEdgeScrollableContent } from "../../catalog/EdgeToEdgeScrollableContent";
+import { CryptoCurrencyProps } from "../../navigation/types";
 
-const CryptoCurrencyScreen = (): JSX.Element => {
+const CryptoCurrencyScreen = ({ navigation }: CryptoCurrencyProps) : JSX.Element => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [cryptoCurrencies, setCryptoCurrencies] = useState<CryptoCurrency[]>([])
 
@@ -30,7 +31,8 @@ const CryptoCurrencyScreen = (): JSX.Element => {
     return(
         <EdgeToEdgeScrollableContent
         isLoading={ isLoading }
-        listItems={ cryptoCurrencies } 
+        listItems={ cryptoCurrencies }
+        showPadding = { true } 
         renderItem={ ({ item }) => {
             const cryptoItem = item as CryptoCurrency;
             return (
@@ -41,7 +43,8 @@ const CryptoCurrencyScreen = (): JSX.Element => {
                     price={ formatDollarValue(cryptoItem.price) }
                     change={ cryptoItem.change}
                     volume={ formatCompactDollarValue(cryptoItem.volume) }
-                    marketCap={ formatCompactDollarValue(cryptoItem.marketCap) }/>
+                    marketCap={ formatCompactDollarValue(cryptoItem.marketCap) }
+                    onItemClick={ () => { navigation.push('CryptoCurrencyDetail', { coinId: cryptoItem.id }) } } />
                 )}
             }
         />

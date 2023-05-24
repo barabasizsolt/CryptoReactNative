@@ -6,6 +6,7 @@ export type Dimension = {
     contentPadding: number;
     screenPadding: number;
     logoSize: number;
+    largeLogoSize: number;
     bottomNavBarHeight: number;
 }
 
@@ -17,5 +18,6 @@ export const StandardDimension: Dimension = {
     contentPadding: 8,
     screenPadding: 20,
     logoSize: 48,
+    largeLogoSize: 56,
     bottomNavBarHeight: 56
 }

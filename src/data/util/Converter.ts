@@ -8,7 +8,7 @@ export function formatDollarValue(value: string): string {
     return numericValue.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
-        maximumFractionDigits: numericValue <= 1 ? 6 : 2
+        maximumFractionDigits: numericValue <= 10 ? 6 : 2
     })
 }
 

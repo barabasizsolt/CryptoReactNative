@@ -11,20 +11,18 @@ type CryptoCurrencyProps = {
     price: string,
     change: string,
     volume: string,
-    marketCap: string
+    marketCap: string,
+    onItemClick: () => void
 }
 
 const CryptoCurrencyCard = (props: CryptoCurrencyProps): JSX.Element => {
     const { colors, shapes } = useAppTheme()
     
     return(
-        <AnimatedPressable 
-            overlayViewStyle={[styles.container, { borderRadius: shapes.small }]} 
-            android_ripple={{ color: colors.rippleColor }} 
-            onPress={() => void 0} >
+        <Card style={[styles.container, { borderRadius: shapes.small, backgroundColor: colors.surface }]}>
             <CryptoCurrencyHolder {...props} />
             <CryptoCurrencyPrice {...props} />
-        </AnimatedPressable>
+        </Card>
     )
 }
 
@@ -32,10 +30,14 @@ const CryptoCurrencyHolder = (props: CryptoCurrencyProps): JSX.Element => {
     const { colors, shapes } = useAppTheme()
 
     return(
-        <Card style={[styles.holder, { borderRadius: shapes.small, backgroundColor: colors.surface }]}>
+        <AnimatedPressable
+            overlayViewStyle={[styles.holder, { borderRadius: shapes.small }]} 
+            android_ripple={{ color: colors.rippleColor }} 
+            onPress={ props.onItemClick } 
+            >
             <CryptoCurrencyLogo {...props} />
             <CryptoCurrencyDetails {...props} />
-        </Card>
+        </AnimatedPressable>
     )
 }
 
@@ -61,10 +63,16 @@ const CryptoCurrencyPrice = (props: CryptoCurrencyProps): JSX.Element => {
     const { typography } = useAppTheme()
 
     return(
-        <Text 
-            numberOfLines={1}
-            style={[typography.title, styles.price]}>{props.price}
-        </Text>
+        <AnimatedPressable
+            overlayViewStyle={styles.price}
+            android_ripple={{}} 
+            onPress={ props.onItemClick } 
+            >
+            <Text 
+                numberOfLines={1}
+                style={typography.title}>{props.price}
+            </Text>
+        </AnimatedPressable>
     )
 }
 
@@ -117,8 +125,6 @@ const styles = StyleSheet.create({
     },
 
     price: {
-        fontWeight: "bold",
-        overflow: "hidden",
         alignSelf: 'center',
         position: 'absolute'
     },

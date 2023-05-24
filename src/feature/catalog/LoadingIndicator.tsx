@@ -1,9 +1,12 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native"
+import { useAppTheme } from "../theme/ThemeContext"
 
 const LoadingIndicator = (): JSX.Element => {
+    const { colors } = useAppTheme()
+
     return(
         <View style={styles.container}>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color={colors.accent} />
         </View>
     )
 }

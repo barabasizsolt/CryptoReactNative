@@ -1,6 +1,11 @@
 import { CandleStickValue } from 'react-native-charts-wrapper';
 import { CryptoCurrencyDetail } from '../../../data/model/cryptodetail/CryptoCurrencyDetail';
 import { ListItem } from '../../../data/model/ListItem';
+import {
+  formatCompactDollarValue,
+  formatCompactNumber,
+  formatDollarValue,
+} from '../../../data/util/Converter';
 
 export enum CryptoDetailUiModelType {
   Header,
@@ -26,12 +31,18 @@ export type Body1 = {
   price: string;
   change: string;
   volume: string;
+  symbol: string;
 };
 
 export type Body2 = {
   marketCapRank: string;
+  marketCap: string;
+  volume: string;
   supply: string;
   circulatingSupply: string;
+  fullyDiluatedValue: string;
+  high24: string;
+  low24: string;
   btcPrice: string;
   description: string;
 };
@@ -55,16 +66,22 @@ export const getCryptoDetailUiModelList = (
     },
     {
       id: CryptoDetailUiModelType.Body1,
-      marketCap: detail.marketCap,
-      price: detail.price,
+      marketCap: formatCompactDollarValue(detail.marketCap),
+      price: formatDollarValue(detail.price),
       change: detail.change,
-      volume: detail.volume,
+      volume: formatCompactDollarValue(detail.volume),
+      symbol: detail.symbol,
     },
     {
       id: CryptoDetailUiModelType.Body2,
       marketCapRank: detail.marketCapRank,
-      supply: detail.supply,
-      circulatingSupply: detail.circulatingSupply,
+      marketCap: formatCompactDollarValue(detail.marketCap),
+      volume: formatCompactDollarValue(detail.volume),
+      supply: formatCompactNumber(detail.supply),
+      circulatingSupply: formatCompactNumber(detail.circulatingSupply),
+      fullyDiluatedValue: formatCompactNumber(detail.fullyDilutedValuation),
+      high24: formatDollarValue(detail.high24),
+      low24: formatDollarValue(detail.low24),
       btcPrice: detail.btcPrice,
       description: detail.description,
     },

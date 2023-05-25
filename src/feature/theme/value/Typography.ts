@@ -25,6 +25,7 @@ export type Typography = {
   inputLabel: TextStyle;
   standard: TextStyle;
   title: TextStyle;
+  title2: TextStyle;
   section: TextStyle;
 };
 
@@ -54,6 +55,13 @@ function getStandardIOSTypography(textColor: ColorValue): Typography {
     title: {
       fontWeight: '500',
       fontSize: 20,
+      lineHeight: 24,
+      letterSpacing: 1,
+      color: textColor,
+    },
+    title2: {
+      fontWeight: '500',
+      fontSize: 22,
       lineHeight: 24,
       letterSpacing: 1,
       color: textColor,
@@ -94,6 +102,13 @@ function getStandardAndroidTypography(textColor: ColorValue): Typography {
     title: {
       fontFamily: 'Roboto_500',
       fontSize: 20,
+      lineHeight: 24,
+      letterSpacing: 1,
+      color: textColor,
+    },
+    title2: {
+      fontFamily: 'Roboto_500',
+      fontSize: 22,
       lineHeight: 24,
       letterSpacing: 1,
       color: textColor,

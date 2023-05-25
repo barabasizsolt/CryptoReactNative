@@ -8,10 +8,13 @@ export interface CryptoCurrencyDetail extends ListItem {
   image: string;
   marketCap: string;
   marketCapRank: string;
+  fullyDilutedValuation: string;
   price: string;
   btcPrice: string;
   change: string;
   volume: string;
   supply: string;
   circulatingSupply: string;
+  high24: string;
+  low24: string;
 }

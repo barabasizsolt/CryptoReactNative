@@ -24,8 +24,11 @@ const CryptoCurrencyDetailMarketDataValidationScheme = Yup.object().shape({
     CryptoCurrencyDetailGeneralPriceValidationScheme,
   total_volume: CryptoCurrencyDetailGeneralPriceValidationScheme,
   market_cap: CryptoCurrencyDetailGeneralPriceValidationScheme,
+  fully_diluted_valuation: CryptoCurrencyDetailGeneralPriceValidationScheme,
   total_supply: Yup.string().nullable(),
   circulating_supply: Yup.string().nullable(),
+  high_24h: CryptoCurrencyDetailGeneralPriceValidationScheme,
+  low_24h: CryptoCurrencyDetailGeneralPriceValidationScheme,
 });
 
 const CryptoCurrencyDetailValidationScheme = Yup.object().shape({
@@ -53,8 +56,11 @@ export function convertToCryptoCurrencyDetail(
     image: dto.image.large ?? '',
     marketCap: dto.market_data.market_cap.usd ?? '0.00',
     marketCapRank: dto.market_cap_rank ?? '0',
+    fullyDilutedValuation: dto.market_data.fully_diluted_valuation.usd ?? '0',
     price: dto.market_data.current_price.usd ?? '0.00',
-    btcPrice: dto.market_data.current_price.btc ?? '0.00',
+    btcPrice: Number(dto.market_data.current_price.btc ?? '0.00')
+      .toFixed(6)
+      .toString(),
     change: parseFloat(
       dto.market_data.price_change_percentage_24h_in_currency.usd ?? '0.00',
     )
@@ -63,5 +69,7 @@ export function convertToCryptoCurrencyDetail(
     volume: dto.market_data.total_volume.usd ?? '0.00',
     supply: dto.market_data.total_supply ?? '0.00',
     circulatingSupply: dto.market_data.circulating_supply ?? '0.00',
+    high24: dto.market_data.high_24h.usd ?? '0.00',
+    low24: dto.market_data.low_24h.usd ?? '0.00',
   };
 }

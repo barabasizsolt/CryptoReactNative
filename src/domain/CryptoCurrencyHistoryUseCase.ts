@@ -1,5 +1,5 @@
-import { CandleStickData, CandleStickValue } from 'react-native-charts-wrapper';
-import { Result, ResultType, wrapToResult } from '../data/Result';
+import { CandleStickValue } from 'react-native-charts-wrapper';
+import { Result, wrapToResult } from '../data/Result';
 import {
   cryptoCurrencyHistoryConverter,
   fetchCryptoCurrencyHistory,
@@ -12,19 +12,3 @@ export let getCryptoCurrencyHistory = async (
     () => fetchCryptoCurrencyHistory(id),
     cryptoCurrencyHistoryConverter,
   );
-
-let printCryptoCurrencyHistory = async (id: string) => {
-  let result: Result<Array<CandleStickValue>> = await getCryptoCurrencyHistory(
-    id,
-  );
-  switch (result.kind) {
-    case ResultType.Success:
-      console.log(result.data);
-      break;
-    case ResultType.Failure:
-      console.log(result.errorMessage);
-      break;
-  }
-};
-
-//printCryptoCurrencyHistory("bitcoin")

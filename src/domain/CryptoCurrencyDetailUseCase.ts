@@ -1,4 +1,4 @@
-import { Result, ResultType, wrapToResult } from '../data/Result';
+import { Result, wrapToResult } from '../data/Result';
 import { CryptoCurrencyDetail } from '../data/model/cryptodetail/CryptoCurrencyDetail';
 import {
   cryptoCurrencyDetailConverter,
@@ -12,17 +12,3 @@ export let getCryptoCurrencyDetail = async (
     () => fetchCryptoCurrencyDetail(id),
     cryptoCurrencyDetailConverter,
   );
-
-let printCryptoCurrencyDetail = async (id: string) => {
-  let result: Result<CryptoCurrencyDetail> = await getCryptoCurrencyDetail(id);
-  switch (result.kind) {
-    case ResultType.Success:
-      console.log(result.data);
-      break;
-    case ResultType.Failure:
-      console.log(result.errorMessage);
-      break;
-  }
-};
-
-//printCryptoCurrencyDetail("bitcoin")

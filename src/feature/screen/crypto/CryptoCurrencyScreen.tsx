@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Result, ResultType } from '../../../data/Result';
 import { CryptoCurrency } from '../../../data/model/crypto/CryptoCurrency';
 import { getCryptoCurrencies } from '../../../domain/CryptoCurrencyUseCase';
@@ -18,7 +18,7 @@ const CryptoCurrencyScreen = ({
     [],
   );
 
-  const getAllCryptoCurrency = async () => {
+  const getAllCryptoCurrency = useCallback(async () => {
     let result: Result<CryptoCurrency[]> = await getCryptoCurrencies();
     switch (result.kind) {
       case ResultType.Success:
@@ -28,17 +28,19 @@ const CryptoCurrencyScreen = ({
       case ResultType.Failure:
         break;
     }
-  };
+  }, []);
 
   useEffect(() => {
     getAllCryptoCurrency();
-  }, []);
+  }, [getAllCryptoCurrency]);
 
   return (
     <EdgeToEdgeScrollableContent
       isLoading={isLoading}
       listItems={cryptoCurrencies}
-      showPadding={true}
+      showPaddingHorizontal={true}
+      showExtraBottomPadding={false}
+      itemSeparator="space"
       renderItem={({ item }) => {
         const cryptoItem = item as CryptoCurrency;
         return (

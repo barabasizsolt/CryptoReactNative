@@ -1,7 +1,4 @@
-import { useTheme } from '@react-navigation/native';
-import { Text, View } from 'react-native';
-import { useAppTheme } from '../../theme/ThemeContext';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { News } from '../../../data/model/news/News';
 import { getNews } from '../../../domain/NewsUseCase';
 import { Result, ResultType } from '../../../data/Result';
@@ -12,7 +9,7 @@ export const NewsScreen = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [news, setNews] = useState<News[]>([]);
 
-  const getAllNews = async () => {
+  const getAllNews = useCallback(async () => {
     let result: Result<News[]> = await getNews();
     switch (result.kind) {
       case ResultType.Success:
@@ -23,17 +20,19 @@ export const NewsScreen = (): JSX.Element => {
         console.log(result.errorMessage);
         break;
     }
-  };
+  }, []);
 
   useEffect(() => {
     getAllNews();
-  }, []);
+  }, [getAllNews]);
 
   return (
     <EdgeToEdgeScrollableContent
       isLoading={isLoading}
       listItems={news}
-      showPadding={true}
+      showPaddingHorizontal={true}
+      showExtraBottomPadding={false}
+      itemSeparator="space"
       renderItem={({ item }) => {
         return <NewsCard news={item as News} />;
       }}

@@ -1,4 +1,4 @@
-import { Animated, Pressable, View } from 'react-native';
+import { Animated, Pressable } from 'react-native';
 import { AnimatedPressableProps, PressCallback, HoverCallback } from './types';
 import { useAnimatedPressableOpacityAnimation } from './OverlayAnimation';
 
@@ -9,7 +9,6 @@ export const AnimatedPressable = ({
   onHoverIn,
   onHoverOut,
   overlayViewStyle,
-  android_ripple,
   ...rest
 }: AnimatedPressableProps) => {
   const { fadeOut, pressFadeIn, hoverFadeIn, opacityValue } =

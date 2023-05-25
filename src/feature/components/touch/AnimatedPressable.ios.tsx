@@ -8,7 +8,6 @@ export const AnimatedPressable = ({
   onPressIn,
   onPressOut,
   overlayViewStyle,
-  android_ripple,
   ...rest
 }: AnimatedPressableProps) => {
   const { pressFadeIn, fadeOut, opacityValue } =

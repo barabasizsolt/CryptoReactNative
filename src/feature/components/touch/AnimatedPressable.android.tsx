@@ -1,5 +1,5 @@
 import type { AnimatedPressableProps } from './types';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 export const AnimatedPressable = ({
   android_ripple,

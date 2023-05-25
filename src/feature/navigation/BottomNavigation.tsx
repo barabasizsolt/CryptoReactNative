@@ -23,6 +23,7 @@ const BottomTabNavigator = () => {
         tabBarStyle: {
           height: dimensions.bottomNavBarHeight + insets.bottom,
           paddingVertical: dimensions.smallPadding,
+          borderTopWidth: 0,
         },
       }}
       initialRouteName="Market">

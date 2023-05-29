@@ -5,8 +5,6 @@ const colors = {
   white: '#FFFFFFFF',
   almostBlack: '#343434',
   almostWhite: '#F8F8F8FF',
-  purple300: '#9575CD',
-  purple700: '#512DA8FF',
   red400: '#EF5350FF',
   red700: '#D32F2FFF',
   orange400: '#FF7043FF',
@@ -19,7 +17,6 @@ const colors = {
   whiteOverlay: '#FFFFFF80',
   lightgrey: '#D3D3D3',
   dimgray: '#696969',
-  orange: '#FF8C00',
 };
 
 export type ColorTheme = {
@@ -31,8 +28,6 @@ export type ColorTheme = {
   onSurfaceSecondary: ColorValue;
   primary: ColorValue;
   onPrimary: ColorValue;
-  accent: ColorValue;
-  onAccent: ColorValue;
   error: ColorValue;
   onError: ColorValue;
   border: ColorValue;
@@ -51,10 +46,8 @@ export const LightColorTheme: ColorTheme = {
   surface: colors.almostWhite,
   onSurface: colors.black,
   onSurfaceSecondary: colors.dimgray,
-  primary: colors.purple700,
+  primary: colors.orange400,
   onPrimary: colors.white,
-  accent: colors.orange,
-  onAccent: colors.white,
   error: colors.red700,
   onError: colors.white,
   selection: colors.blackOverlay,
@@ -62,7 +55,7 @@ export const LightColorTheme: ColorTheme = {
   rippleColor: colors.blackOverlay,
   placeholderColor: colors.blueGrey800,
   overlay: colors.blackOverlay,
-  bottomNavSelected: colors.orange,
+  bottomNavSelected: colors.orange400,
   bottomNavNotSelected: colors.dimgray,
 };
 
@@ -73,10 +66,8 @@ export const DarkColorTheme: ColorTheme = {
   surface: colors.almostBlack,
   onSurface: colors.white,
   onSurfaceSecondary: colors.lightgrey,
-  primary: colors.purple300,
+  primary: colors.orange700,
   onPrimary: colors.white,
-  accent: colors.orange,
-  onAccent: colors.white,
   error: colors.red400,
   onError: colors.white,
   border: colors.blueGrey200,
@@ -84,6 +75,6 @@ export const DarkColorTheme: ColorTheme = {
   rippleColor: colors.whiteOverlay,
   placeholderColor: colors.blueGrey800,
   overlay: colors.blackOverlay,
-  bottomNavSelected: colors.orange,
+  bottomNavSelected: colors.orange700,
   bottomNavNotSelected: colors.lightgrey,
 };

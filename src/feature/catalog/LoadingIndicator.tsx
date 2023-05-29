@@ -6,7 +6,7 @@ const LoadingIndicator = (): JSX.Element => {
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color={colors.accent} />
+      <ActivityIndicator size="large" color={colors.primary} />
     </View>
   );
 };

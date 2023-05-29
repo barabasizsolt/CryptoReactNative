@@ -4,6 +4,7 @@ import Card from './Card';
 import { useAppTheme } from '../theme/ThemeContext';
 import { AnimatedPressable } from '../components/touch/AnimatedPressable';
 import { openUrl } from '../util/OpenUrl';
+import { memo } from 'react';
 
 type NewsCardProps = {
   news: News;
@@ -67,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewsCard;
+export default memo(NewsCard);

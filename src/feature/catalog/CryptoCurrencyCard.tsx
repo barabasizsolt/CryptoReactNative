@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { useAppTheme } from '../theme/ThemeContext';
 import Card from './Card';
@@ -181,4 +181,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CryptoCurrencyCard;
+const areEqual = (
+  prevProps: CryptoCurrencyProps,
+  nextProps: CryptoCurrencyProps,
+): boolean => {
+  if (prevProps.price === nextProps.price) {
+    if (prevProps.change === nextProps.change) {
+      if (prevProps.marketCap === nextProps.marketCap) {
+        return prevProps.volume === nextProps.volume;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+};
+
+export default memo(CryptoCurrencyCard, areEqual);

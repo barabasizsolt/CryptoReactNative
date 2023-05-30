@@ -1,4 +1,3 @@
-import { Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -7,6 +6,7 @@ import { useAppTheme } from '../theme/ThemeContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavParamList } from './types';
 import CryptoCurrencyScreen from '../screen/crypto/CryptoCurrencyScreen';
+import { TranslatedText } from '../catalog/TranslatedText';
 
 const Tab = createBottomTabNavigator<BottomNavParamList>();
 
@@ -32,7 +32,7 @@ const BottomTabNavigator = () => {
         component={CryptoCurrencyScreen}
         options={{
           tabBarLabel: ({ color }) => (
-            <TabBarLabel name="Market" color={color} />
+            <TabBarLabel translatedTextKey="label_market" color={color} />
           ),
           tabBarIcon: ({ color, size }) => (
             <Fontisto name="bitcoin" color={color} size={size} />
@@ -43,7 +43,9 @@ const BottomTabNavigator = () => {
         name="News"
         component={NewsScreen}
         options={{
-          tabBarLabel: ({ color }) => <TabBarLabel name="News" color={color} />,
+          tabBarLabel: ({ color }) => (
+            <TabBarLabel translatedTextKey="label_news" color={color} />
+          ),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="newspaper"
@@ -58,20 +60,19 @@ const BottomTabNavigator = () => {
 };
 
 type TabBarLabelProps = {
-  name: string;
+  translatedTextKey: string;
   color: string;
 };
 
 const TabBarLabel = (props: TabBarLabelProps): JSX.Element => {
   const { typography, dimensions } = useAppTheme();
   return (
-    <Text
+    <TranslatedText
       style={[
         typography.smallLabel,
         { color: props.color, paddingBottom: dimensions.smallPadding },
-      ]}>
-      {props.name}
-    </Text>
+      ]}
+      textKey={props.translatedTextKey}></TranslatedText>
   );
 };
 

@@ -35,6 +35,8 @@ import { getFormattedTime } from '../../util/Date';
 import { getOrdinal } from '../../util/Order';
 import RenderHtml from 'react-native-render-html';
 import Card from '../../catalog/Card';
+import { TranslatedText } from '../../catalog/TranslatedText';
+import { useTranslation } from 'react-i18next';
 
 const CryptoCurrencyDetailScreen = ({
   route,
@@ -270,9 +272,18 @@ const CryptoBody1Details = (props: CryptoBody1DetailsProps): JSX.Element => {
         </Text>
       </View>
       <View style={styles.body1DetailItemHolder}>
-        <Text style={[typography.smallLabel, styles.body1ItemName]}>24h</Text>
-        <Text style={[typography.smallLabel, styles.body1ItemName]}>Vol</Text>
-        <Text style={[typography.smallLabel, styles.body1ItemName]}>Cap</Text>
+        <TranslatedText
+          style={[typography.smallLabel, styles.body1ItemName]}
+          textKey="24h"
+        />
+        <TranslatedText
+          style={[typography.smallLabel, styles.body1ItemName]}
+          textKey="vol"
+        />
+        <TranslatedText
+          style={[typography.smallLabel, styles.body1ItemName]}
+          textKey="cap"
+        />
       </View>
     </View>
   );
@@ -284,6 +295,7 @@ type CryptoBody2Props = {
 
 const CryptoBody2 = (props: CryptoBody2Props): JSX.Element => {
   const { dimensions, colors, shapes } = useAppTheme();
+  const { t } = useTranslation();
 
   return (
     <Card
@@ -295,43 +307,43 @@ const CryptoBody2 = (props: CryptoBody2Props): JSX.Element => {
         marginHorizontal: dimensions.contentPadding,
       }}>
       <CryptoBody2DetailItem
-        holder="Market Cap Rank"
+        holder={t('market_cap_rank')}
         value={getOrdinal(props.data.marketCapRank)}
         showDelimiter={true}
         showDoublePaddingStart={false}
       />
       <CryptoBody2DetailItem
-        holder="Fully Diluted Valuation"
+        holder={t('fully_diluted_valuation')}
         value={props.data.fullyDiluatedValue}
         showDelimiter={true}
         showDoublePaddingStart={false}
       />
       <CryptoBody2DetailItem
-        holder="24H High"
+        holder={t('24h_high')}
         value={props.data.high24}
         showDelimiter={true}
         showDoublePaddingStart={false}
       />
       <CryptoBody2DetailItem
-        holder="24H Low"
+        holder={t('24h_low')}
         value={props.data.low24}
         showDelimiter={true}
         showDoublePaddingStart={false}
       />
       <CryptoBody2DetailItem
-        holder="Supply"
+        holder={t('supply')}
         value={props.data.supply}
         showDelimiter={false}
         showDoublePaddingStart={false}
       />
       <CryptoBody2DetailItem
-        holder="circulating"
+        holder={t('circulating')}
         value={props.data.circulatingSupply}
         showDelimiter={true}
         showDoublePaddingStart={true}
       />
       <CryptoBody2DetailItem
-        holder="BTC Price"
+        holder={t('btc_price')}
         value={props.data.btcPrice}
         showDelimiter={true}
         showDoublePaddingStart={false}
@@ -392,6 +404,7 @@ const CryptoBody2DetailDescriptiom = (
 ): JSX.Element => {
   const { dimensions, typography, colors } = useAppTheme();
   const { width } = useWindowDimensions();
+  const { t } = useTranslation();
   const source = {
     html: `
       <p style='text-align:center; color:${String(colors.onBackground)}'>
@@ -402,7 +415,7 @@ const CryptoBody2DetailDescriptiom = (
   return (
     <View style={{ paddingHorizontal: dimensions.contentPadding }}>
       <Text style={[typography.inputLabel, { fontWeight: 'bold' }]}>
-        Description
+        {t('description')}
       </Text>
       <RenderHtml contentWidth={width} source={source} />
     </View>

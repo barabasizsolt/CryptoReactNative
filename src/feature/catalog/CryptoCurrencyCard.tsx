@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { useAppTheme } from '../theme/ThemeContext';
 import Card from './Card';
 import { AnimatedPressable } from '../components/touch/AnimatedPressable';
+import { TranslatedText } from './TranslatedText';
 
 type CryptoCurrencyProps = {
   name: string;
@@ -125,9 +126,18 @@ const CryptoCurrencyDetails = (props: CryptoCurrencyProps): JSX.Element => {
         </Text>
       </View>
       <View style={styles.detailItemHolder}>
-        <Text style={[typography.smallLabel, styles.itemName]}>24h</Text>
-        <Text style={[typography.smallLabel, styles.itemName]}>Vol</Text>
-        <Text style={[typography.smallLabel, styles.itemName]}>Cap</Text>
+        <TranslatedText
+          style={[typography.smallLabel, styles.itemName]}
+          textKey="24h"
+        />
+        <TranslatedText
+          style={[typography.smallLabel, styles.itemName]}
+          textKey="vol"
+        />
+        <TranslatedText
+          style={[typography.smallLabel, styles.itemName]}
+          textKey="cap"
+        />
       </View>
     </View>
   );

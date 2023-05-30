@@ -1,0 +1,17 @@
+{
+    "translations": {
+        "label_market": "Market",
+        "label_news": "News",
+        "24h": "24h",
+        "vol": "Vol",
+        "cap": "Cap",
+        "market_cap_rank": "Market Cap Rank",
+        "fully_diluted_valuation": "Fully Diluted Valuation",
+        "24h_high": "24H High",
+        "24h_low": "24H Low",
+        "supply": "Supply",
+        "circulating": "circulating",
+        "btc_price": "BTC Price",
+        "description": "Description"
+    }
+}

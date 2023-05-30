@@ -1,0 +1,17 @@
+{
+    "translations": {
+        "label_market": "Piac",
+        "label_news": "Hírek",
+        "24h": "24h",
+        "vol": "Vol",
+        "cap": "Cap",
+        "market_cap_rank": "Piaci Tőke Rangsor",
+        "fully_diluted_valuation": "Teljesen hígított értékbecslés",
+        "24h_high": "24H Magas",
+        "24h_low": "24H Alacsony",
+        "supply": "Ellátás",
+        "circulating": "forgalomban lévő",
+        "btc_price": "BTC Ár",
+        "description": "Leírás"
+    }
+}

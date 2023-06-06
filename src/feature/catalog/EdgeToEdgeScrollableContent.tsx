@@ -3,11 +3,19 @@ import { useAppTheme } from '../theme/ThemeContext';
 import { FlatList, ListRenderItem, View } from 'react-native';
 import LoadingIndicator from './LoadingIndicator';
 import { ListItem } from '../../data/model/ListItem';
+import React, { useRef, useState } from 'react';
+import ErrorContent from './ErrorContent';
+import { useScrollToTop } from '@react-navigation/native';
+import ScrollUpItem from './ScrollUpItem';
 
 export type ItemSeparator = 'space' | 'divider' | 'undefined';
 
 export type EdgeToEdgeScrollableContent = {
   isLoading: boolean;
+  isError: boolean;
+  onTryAgain: () => void;
+  isRefreshing: boolean;
+  onRefresh: () => void;
   listItems: ArrayLike<ListItem> | null | undefined;
   renderItem: ListRenderItem<ListItem> | null | undefined;
   showPaddingHorizontal: boolean;
@@ -20,6 +28,11 @@ export const EdgeToEdgeScrollableContent = (
 ): JSX.Element => {
   const insets = useSafeAreaInsets();
   const { colors, dimensions } = useAppTheme();
+
+  const [shouldShowScrollUp, setShouldShowScrollUp] = useState<boolean>(false);
+
+  const ref = useRef<FlatList<any>>(null);
+  useScrollToTop(ref);
 
   const header = (): JSX.Element => {
     return <View style={{ height: insets.top + dimensions.contentPadding }} />;
@@ -36,7 +49,7 @@ export const EdgeToEdgeScrollableContent = (
     );
   };
   const itemSeparator = (): JSX.Element | null => {
-    var separator: JSX.Element | null;
+    let separator: JSX.Element | null;
     switch (props.itemSeparator) {
       case 'space':
         separator = <Spacer />;
@@ -54,25 +67,44 @@ export const EdgeToEdgeScrollableContent = (
   };
 
   if (props.isLoading) {
-    return LoadingIndicator();
+    return <LoadingIndicator />;
+  } else if (props.isError) {
+    return <ErrorContent onPress={props.onTryAgain} />;
   } else {
     return (
-      <FlatList
-        data={props.listItems}
-        renderItem={props.renderItem}
-        ListHeaderComponent={header}
-        ListFooterComponent={footer}
-        numColumns={1}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{
-          paddingHorizontal: props.showPaddingHorizontal
-            ? dimensions.contentPadding
-            : 0,
-          backgroundColor: colors.background,
-        }}
-        ItemSeparatorComponent={itemSeparator}
-        showsVerticalScrollIndicator={false}
-      />
+      <>
+        <FlatList
+          data={props.listItems}
+          onRefresh={props.onRefresh}
+          refreshing={props.isRefreshing}
+          renderItem={props.renderItem}
+          ListHeaderComponent={header}
+          ListFooterComponent={footer}
+          numColumns={1}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{
+            paddingHorizontal: props.showPaddingHorizontal
+              ? dimensions.contentPadding
+              : 0,
+            backgroundColor: colors.background,
+          }}
+          ItemSeparatorComponent={itemSeparator}
+          showsVerticalScrollIndicator={false}
+          onScroll={event => {
+            const { contentOffset } = event.nativeEvent;
+            setShouldShowScrollUp(contentOffset.y > 1000 ? true : false);
+          }}
+          ref={ref}
+        />
+
+        <ScrollUpItem
+          isVisible={shouldShowScrollUp}
+          onClick={() => {
+            ref.current?.scrollToOffset({ offset: 0, animated: true });
+          }}
+          style={{ alignSelf: 'center' }}
+        />
+      </>
     );
   }
 };

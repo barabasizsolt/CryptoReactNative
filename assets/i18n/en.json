@@ -12,6 +12,10 @@
         "supply": "Supply",
         "circulating": "circulating",
         "btc_price": "BTC Price",
-        "description": "Description"
+        "description": "Description",
+        "error_title": "Something went wrong",
+        "error_msg": "Try again later.",
+        "try_again": "Try again",
+        "scroll_up": "Scroll Up"
     }
 }

@@ -12,6 +12,10 @@
         "supply": "Ellátás",
         "circulating": "forgalomban lévő",
         "btc_price": "BTC Ár",
-        "description": "Leírás"
+        "description": "Leírás",
+        "error_title": "Valami elromlott",
+        "error_msg": "Próbálja újra később.",
+        "try_again": "Próbálja újra",
+        "scroll_up": "Görgess fel"
     }
 }

@@ -14,7 +14,7 @@ export const wrapToResult = async <T, R>(
   dataConverter: (result: T) => R,
 ): Promise<Result<R>> => {
   try {
-    const result = await func();
+    let result = await func();
     return { kind: ResultType.Success, data: dataConverter(result.data) };
   } catch (exception) {
     return { kind: ResultType.Failure, errorMessage: exception };

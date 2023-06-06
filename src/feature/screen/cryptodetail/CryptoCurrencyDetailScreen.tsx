@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { CryptoCurrencyDetailProps } from '../../navigation/types';
 import { useAppTheme } from '../../theme/ThemeContext';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { ResultType } from '../../../data/Result';
 import { getCryptoCurrencyHistory } from '../../../domain/CryptoCurrencyHistoryUseCase';
 import {
@@ -37,19 +37,25 @@ import RenderHtml from 'react-native-render-html';
 import Card from '../../catalog/Card';
 import { TranslatedText } from '../../catalog/TranslatedText';
 import { useTranslation } from 'react-i18next';
+import Snackbar from 'react-native-snackbar';
+import { screenStateReducer } from '../../components/state/reducer';
+import { ScreenState, State } from '../../components/state/state';
+import { Action } from '../../components/state/action';
 
 const CryptoCurrencyDetailScreen = ({
   route,
 }: CryptoCurrencyDetailProps): JSX.Element => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isHistoryLoading, setHistoryIsLoading] = useState<boolean>(true);
-  const [isDetailLoading, setDetailIsLoading] = useState<boolean>(true);
+  const [detailState, detailDispatch] = useReducer(screenStateReducer, {
+    state: State.LOADING,
+  } as ScreenState<CryptoCurrencyDetail>);
 
-  const [history, setHistory] = useState<Array<CandleStickValue>>([]);
-  const [detail, setDetail] = useState<CryptoCurrencyDetail | undefined>(
-    undefined,
-  );
+  const [historyState, historyDispatch] = useReducer(screenStateReducer, {
+    state: State.LOADING,
+  } as ScreenState<Array<CandleStickValue>>);
+
   const [uiModel, setUiModel] = useState<CryptoDetailUiModelList>([]);
+
+  const { t } = useTranslation();
 
   const getDetail = useCallback(async () => {
     let [historyResult, detailResult] = await Promise.all([
@@ -59,21 +65,25 @@ const CryptoCurrencyDetailScreen = ({
 
     switch (historyResult.kind) {
       case ResultType.Success:
-        setHistory(historyResult.data);
-        setHistoryIsLoading(false);
+        historyDispatch({ type: Action.SHOW_DATA, data: historyResult.data });
         break;
       case ResultType.Failure:
-        console.log(historyResult.errorMessage);
+        historyDispatch({
+          type: Action.SHOW_ERROR,
+          message: historyResult.errorMessage,
+        });
         break;
     }
 
     switch (detailResult.kind) {
       case ResultType.Success:
-        setDetail(detailResult.data);
-        setDetailIsLoading(false);
+        detailDispatch({ type: Action.SHOW_DATA, data: detailResult.data });
         break;
       case ResultType.Failure:
-        console.log(detailResult.errorMessage);
+        detailDispatch({
+          type: Action.SHOW_ERROR,
+          message: detailResult.errorMessage,
+        });
         break;
     }
   }, [route.params.coinId]);
@@ -81,16 +91,46 @@ const CryptoCurrencyDetailScreen = ({
   useEffect(() => {
     getDetail();
   }, [route.params.coinId, getDetail]);
+
   useEffect(() => {
-    setIsLoading(isHistoryLoading && isDetailLoading);
-    if (!isLoading) {
-      setUiModel(getCryptoDetailUiModelList(detail!, history));
+    if (
+      detailState.state === State.SWIPE_REFRESH_ERROR ||
+      historyState.state === State.SWIPE_REFRESH_ERROR
+    ) {
+      Snackbar.show({
+        text: t('error_title'),
+        duration: Snackbar.LENGTH_LONG,
+      });
     }
-  }, [isHistoryLoading, isDetailLoading, isLoading, detail, history]);
+    if (detailState.state === State.DATA && historyState.state === State.DATA) {
+      setUiModel(
+        getCryptoDetailUiModelList(
+          detailState.data as CryptoCurrencyDetail,
+          historyState.data as Array<CandleStickValue>,
+        ),
+      );
+    }
+  }, [detailState, historyState, t]);
 
   return (
     <EdgeToEdgeScrollableContent
-      isLoading={isLoading}
+      isLoading={
+        detailState.state === State.LOADING ||
+        historyState.state === State.LOADING
+      }
+      isError={detailState.state === State.LOADING_ERROR}
+      isRefreshing={
+        detailState.state === State.FORCE_REFRESHING ||
+        historyState.state === State.FORCE_REFRESHING
+      }
+      onTryAgain={() => {
+        detailDispatch({ type: Action.LOAD });
+        getDetail();
+      }}
+      onRefresh={() => {
+        detailDispatch({ type: Action.FORCE_REFRESH });
+        getDetail();
+      }}
       listItems={uiModel}
       showPaddingHorizontal={false}
       showExtraBottomPadding={true}

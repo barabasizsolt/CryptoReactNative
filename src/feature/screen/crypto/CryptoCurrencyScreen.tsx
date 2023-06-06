@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { Result, ResultType } from '../../../data/Result';
 import { CryptoCurrency } from '../../../data/model/crypto/CryptoCurrency';
 import { getCryptoCurrencies } from '../../../domain/CryptoCurrencyUseCase';
@@ -9,23 +9,31 @@ import {
 } from '../../../data/util/Converter';
 import { EdgeToEdgeScrollableContent } from '../../catalog/EdgeToEdgeScrollableContent';
 import { CryptoCurrencyProps } from '../../navigation/types';
+import Snackbar from 'react-native-snackbar';
+import { screenStateReducer } from '../../components/state/reducer';
+import { ScreenState, State } from '../../components/state/state';
+import { Action } from '../../components/state/action';
+import { useTranslation } from 'react-i18next';
 
 const CryptoCurrencyScreen = ({
   navigation,
 }: CryptoCurrencyProps): JSX.Element => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [cryptoCurrencies, setCryptoCurrencies] = useState<CryptoCurrency[]>(
-    [],
-  );
+  const [state, dispatch] = useReducer(screenStateReducer, {
+    state: State.LOADING,
+  } as ScreenState<CryptoCurrency[]>);
+  const { t } = useTranslation();
 
   const getAllCryptoCurrency = useCallback(async () => {
     let result: Result<CryptoCurrency[]> = await getCryptoCurrencies();
+
     switch (result.kind) {
       case ResultType.Success:
-        setCryptoCurrencies(result.data);
-        setIsLoading(false);
+        console.log('success');
+        dispatch({ type: Action.SHOW_DATA, data: result.data });
         break;
       case ResultType.Failure:
+        console.log('failure');
+        dispatch({ type: Action.SHOW_ERROR, message: result.errorMessage });
         break;
     }
   }, []);
@@ -34,10 +42,29 @@ const CryptoCurrencyScreen = ({
     getAllCryptoCurrency();
   }, [getAllCryptoCurrency]);
 
+  useEffect(() => {
+    if (state.state === State.SWIPE_REFRESH_ERROR) {
+      Snackbar.show({
+        text: t('error_title'),
+        duration: Snackbar.LENGTH_LONG,
+      });
+    }
+  }, [state, t]);
+
   return (
     <EdgeToEdgeScrollableContent
-      isLoading={isLoading}
-      listItems={cryptoCurrencies}
+      isLoading={state.state === State.LOADING}
+      isError={state.state === State.LOADING_ERROR}
+      onTryAgain={() => {
+        dispatch({ type: Action.LOAD });
+        getAllCryptoCurrency();
+      }}
+      isRefreshing={state.state === State.FORCE_REFRESHING}
+      onRefresh={() => {
+        dispatch({ type: Action.FORCE_REFRESH });
+        getAllCryptoCurrency();
+      }}
+      listItems={state.data as CryptoCurrency[]}
       showPaddingHorizontal={true}
       showExtraBottomPadding={false}
       itemSeparator="space"

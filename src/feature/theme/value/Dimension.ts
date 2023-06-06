@@ -8,6 +8,9 @@ export type Dimension = {
   logoSize: number;
   largeLogoSize: number;
   bottomNavBarHeight: number;
+  buttonBorderRadius: number;
+  buttonTextHorizontalPadding: number;
+  buttonTextVerticalPadding: number;
 };
 
 export const StandardDimension: Dimension = {
@@ -20,4 +23,7 @@ export const StandardDimension: Dimension = {
   logoSize: 48,
   largeLogoSize: 56,
   bottomNavBarHeight: 56,
+  buttonBorderRadius: 12,
+  buttonTextHorizontalPadding: 16,
+  buttonTextVerticalPadding: 8,
 };

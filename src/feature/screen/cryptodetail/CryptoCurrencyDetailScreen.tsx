@@ -41,10 +41,11 @@ import Snackbar from 'react-native-snackbar';
 import { screenStateReducer } from '../../components/state/reducer';
 import { ScreenState, State } from '../../components/state/state';
 import { Action } from '../../components/state/action';
+import { ReactElement } from 'react';
 
 const CryptoCurrencyDetailScreen = ({
   route,
-}: CryptoCurrencyDetailProps): JSX.Element => {
+}: CryptoCurrencyDetailProps): ReactElement => {
   const [detailState, detailDispatch] = useReducer(screenStateReducer, {
     state: State.LOADING,
   } as ScreenState<CryptoCurrencyDetail>);
@@ -57,35 +58,35 @@ const CryptoCurrencyDetailScreen = ({
 
   const { t } = useTranslation();
 
-  const getDetail = useCallback(async () => {
-    let [historyResult, detailResult] = await Promise.all([
+  const getDetail = useCallback(() => {
+    Promise.all([
       getCryptoCurrencyHistory(route.params.coinId),
       getCryptoCurrencyDetail(route.params.coinId),
-    ]);
+    ]).then(([historyResult, detailResult]) => {
+      switch (historyResult.kind) {
+        case ResultType.Success:
+          historyDispatch({ type: Action.SHOW_DATA, data: historyResult.data });
+          break;
+        case ResultType.Failure:
+          historyDispatch({
+            type: Action.SHOW_ERROR,
+            message: historyResult.errorMessage,
+          });
+          break;
+      }
 
-    switch (historyResult.kind) {
-      case ResultType.Success:
-        historyDispatch({ type: Action.SHOW_DATA, data: historyResult.data });
-        break;
-      case ResultType.Failure:
-        historyDispatch({
-          type: Action.SHOW_ERROR,
-          message: historyResult.errorMessage,
-        });
-        break;
-    }
-
-    switch (detailResult.kind) {
-      case ResultType.Success:
-        detailDispatch({ type: Action.SHOW_DATA, data: detailResult.data });
-        break;
-      case ResultType.Failure:
-        detailDispatch({
-          type: Action.SHOW_ERROR,
-          message: detailResult.errorMessage,
-        });
-        break;
-    }
+      switch (detailResult.kind) {
+        case ResultType.Success:
+          detailDispatch({ type: Action.SHOW_DATA, data: detailResult.data });
+          break;
+        case ResultType.Failure:
+          detailDispatch({
+            type: Action.SHOW_ERROR,
+            message: detailResult.errorMessage,
+          });
+          break;
+      }
+    });
   }, [route.params.coinId]);
 
   useEffect(() => {
@@ -136,7 +137,7 @@ const CryptoCurrencyDetailScreen = ({
       showExtraBottomPadding={true}
       itemSeparator="divider"
       renderItem={({ item }) => {
-        var renderItem: JSX.Element;
+        let renderItem: ReactElement;
         switch (item.id) {
           case CryptoDetailUiModelType.Header:
             let header = item as unknown as Header;
@@ -170,7 +171,7 @@ type CryptoHeaderProps = {
   data: Header;
 };
 
-const CryptoHeader = (props: CryptoHeaderProps): JSX.Element => {
+const CryptoHeader = (props: CryptoHeaderProps): ReactElement => {
   const { dimensions, typography } = useAppTheme();
 
   return (
@@ -199,7 +200,7 @@ type CryptoChartProps = {
   coinName: string;
 };
 
-const CryptoChart = (props: CryptoChartProps): JSX.Element => {
+const CryptoChart = (props: CryptoChartProps): ReactElement => {
   const { colors, dimensions } = useAppTheme();
 
   return (
@@ -222,7 +223,7 @@ type CryptoBody1Props = {
   data: Body1;
 };
 
-const CryptoBody1 = (props: CryptoBody1Props): JSX.Element => {
+const CryptoBody1 = (props: CryptoBody1Props): ReactElement => {
   const { dimensions } = useAppTheme();
 
   return (
@@ -249,7 +250,7 @@ type CryptoBody1PriceProps = {
   symbol: string;
 };
 
-const CryptoBody1Price = (props: CryptoBody1PriceProps): JSX.Element => {
+const CryptoBody1Price = (props: CryptoBody1PriceProps): ReactElement => {
   const { dimensions, typography } = useAppTheme();
 
   return (
@@ -274,7 +275,7 @@ type CryptoBody1DetailsProps = {
   marketCap: string;
 };
 
-const CryptoBody1Details = (props: CryptoBody1DetailsProps): JSX.Element => {
+const CryptoBody1Details = (props: CryptoBody1DetailsProps): ReactElement => {
   const { dimensions, typography, colors } = useAppTheme();
 
   return (
@@ -333,7 +334,7 @@ type CryptoBody2Props = {
   data: Body2;
 };
 
-const CryptoBody2 = (props: CryptoBody2Props): JSX.Element => {
+const CryptoBody2 = (props: CryptoBody2Props): ReactElement => {
   const { dimensions, colors, shapes } = useAppTheme();
   const { t } = useTranslation();
 
@@ -402,7 +403,7 @@ type CryptoBody2DetailItemProps = {
 
 const CryptoBody2DetailItem = (
   props: CryptoBody2DetailItemProps,
-): JSX.Element => {
+): ReactElement => {
   const { dimensions, typography } = useAppTheme();
   const delimiter = props.showDelimiter ? <Divider /> : null;
 
@@ -441,7 +442,7 @@ type CryptoBody2DetailDescriptiomProps = {
 
 const CryptoBody2DetailDescriptiom = (
   props: CryptoBody2DetailDescriptiomProps,
-): JSX.Element => {
+): ReactElement => {
   const { dimensions, typography, colors } = useAppTheme();
   const { width } = useWindowDimensions();
   const { t } = useTranslation();

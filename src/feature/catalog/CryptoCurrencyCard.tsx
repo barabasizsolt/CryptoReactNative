@@ -4,6 +4,7 @@ import { useAppTheme } from '../theme/ThemeContext';
 import Card from './Card';
 import { AnimatedPressable } from '../components/touch/AnimatedPressable';
 import { TranslatedText } from './TranslatedText';
+import { ReactElement } from 'react';
 
 type CryptoCurrencyProps = {
   name: string;
@@ -16,7 +17,7 @@ type CryptoCurrencyProps = {
   onItemClick: () => void;
 };
 
-const CryptoCurrencyCard = (props: CryptoCurrencyProps): JSX.Element => {
+const CryptoCurrencyCard = (props: CryptoCurrencyProps): ReactElement => {
   const { colors, shapes } = useAppTheme();
 
   return (
@@ -31,7 +32,7 @@ const CryptoCurrencyCard = (props: CryptoCurrencyProps): JSX.Element => {
   );
 };
 
-const CryptoCurrencyHolder = (props: CryptoCurrencyProps): JSX.Element => {
+const CryptoCurrencyHolder = (props: CryptoCurrencyProps): ReactElement => {
   const { colors, shapes } = useAppTheme();
 
   return (
@@ -45,7 +46,7 @@ const CryptoCurrencyHolder = (props: CryptoCurrencyProps): JSX.Element => {
   );
 };
 
-const CryptoCurrencyLogo = (props: CryptoCurrencyProps): JSX.Element => {
+const CryptoCurrencyLogo = (props: CryptoCurrencyProps): ReactElement => {
   const { dimensions, typography, colors } = useAppTheme();
 
   return (
@@ -72,7 +73,7 @@ const CryptoCurrencyLogo = (props: CryptoCurrencyProps): JSX.Element => {
   );
 };
 
-const CryptoCurrencyPrice = (props: CryptoCurrencyProps): JSX.Element => {
+const CryptoCurrencyPrice = (props: CryptoCurrencyProps): ReactElement => {
   const { typography } = useAppTheme();
 
   return (
@@ -87,7 +88,7 @@ const CryptoCurrencyPrice = (props: CryptoCurrencyProps): JSX.Element => {
   );
 };
 
-const CryptoCurrencyDetails = (props: CryptoCurrencyProps): JSX.Element => {
+const CryptoCurrencyDetails = (props: CryptoCurrencyProps): ReactElement => {
   const { dimensions, typography, colors } = useAppTheme();
 
   return (

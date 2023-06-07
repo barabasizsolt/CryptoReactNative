@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import { Result, ResultType } from '../../../data/Result';
+import { ResultType } from '../../../data/Result';
 import { CryptoCurrency } from '../../../data/model/crypto/CryptoCurrency';
 import { getCryptoCurrencies } from '../../../domain/CryptoCurrencyUseCase';
 import CryptoCurrencyCard from '../../catalog/CryptoCurrencyCard';
@@ -14,28 +14,27 @@ import { screenStateReducer } from '../../components/state/reducer';
 import { ScreenState, State } from '../../components/state/state';
 import { Action } from '../../components/state/action';
 import { useTranslation } from 'react-i18next';
+import { ReactElement } from 'react';
 
 const CryptoCurrencyScreen = ({
   navigation,
-}: CryptoCurrencyProps): JSX.Element => {
+}: CryptoCurrencyProps): ReactElement => {
   const [state, dispatch] = useReducer(screenStateReducer, {
     state: State.LOADING,
   } as ScreenState<CryptoCurrency[]>);
   const { t } = useTranslation();
 
-  const getAllCryptoCurrency = useCallback(async () => {
-    let result: Result<CryptoCurrency[]> = await getCryptoCurrencies();
-
-    switch (result.kind) {
-      case ResultType.Success:
-        console.log('success');
-        dispatch({ type: Action.SHOW_DATA, data: result.data });
-        break;
-      case ResultType.Failure:
-        console.log('failure');
-        dispatch({ type: Action.SHOW_ERROR, message: result.errorMessage });
-        break;
-    }
+  const getAllCryptoCurrency = useCallback(() => {
+    getCryptoCurrencies().then(result => {
+      switch (result.kind) {
+        case ResultType.Success:
+          dispatch({ type: Action.SHOW_DATA, data: result.data });
+          break;
+        case ResultType.Failure:
+          dispatch({ type: Action.SHOW_ERROR, message: result.errorMessage });
+          break;
+      }
+    });
   }, []);
 
   useEffect(() => {

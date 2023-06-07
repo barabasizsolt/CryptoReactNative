@@ -11,7 +11,7 @@ import { useAppTheme } from '../theme/ThemeContext';
 import { AnimatedPressable } from '../components/touch/AnimatedPressable';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactElement } from 'react';
 
 type ScrollUpItemProps = {
   style?: StyleProp<ViewStyle> | undefined;
@@ -19,7 +19,7 @@ type ScrollUpItemProps = {
   onClick: () => void;
 };
 
-const ScrollUpItem = (props: ScrollUpItemProps): JSX.Element => {
+const ScrollUpItem = (props: ScrollUpItemProps): ReactElement => {
   const { t } = useTranslation();
   const { dimensions, typography, colors, shapes } = useAppTheme();
   const insets = useSafeAreaInsets();

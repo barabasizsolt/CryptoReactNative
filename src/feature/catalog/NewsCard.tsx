@@ -4,13 +4,13 @@ import Card from './Card';
 import { useAppTheme } from '../theme/ThemeContext';
 import { AnimatedPressable } from '../components/touch/AnimatedPressable';
 import { openUrl } from '../util/OpenUrl';
-import { memo } from 'react';
+import { memo, ReactElement } from 'react';
 
 type NewsCardProps = {
   news: News;
 };
 
-const NewsCard = (props: NewsCardProps): JSX.Element => {
+const NewsCard = (props: NewsCardProps): ReactElement => {
   const { colors, shapes, typography, dimensions } = useAppTheme();
 
   return (

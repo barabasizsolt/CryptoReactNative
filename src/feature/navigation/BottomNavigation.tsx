@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavParamList } from './types';
 import CryptoCurrencyScreen from '../screen/crypto/CryptoCurrencyScreen';
 import { TranslatedText } from '../catalog/TranslatedText';
+import { ReactElement } from 'react';
 
 const Tab = createBottomTabNavigator<BottomNavParamList>();
 
@@ -64,7 +65,7 @@ type TabBarLabelProps = {
   color: string;
 };
 
-const TabBarLabel = (props: TabBarLabelProps): JSX.Element => {
+const TabBarLabel = (props: TabBarLabelProps): ReactElement => {
   const { typography, dimensions } = useAppTheme();
   return (
     <TranslatedText

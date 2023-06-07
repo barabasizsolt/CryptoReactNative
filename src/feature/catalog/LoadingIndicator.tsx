@@ -1,7 +1,8 @@
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useAppTheme } from '../theme/ThemeContext';
+import { ReactElement } from 'react';
 
-const LoadingIndicator = (): JSX.Element => {
+const LoadingIndicator = (): ReactElement => {
   const { colors } = useAppTheme();
 
   return (

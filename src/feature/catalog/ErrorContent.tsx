@@ -2,12 +2,13 @@ import { StyleSheet, View } from 'react-native';
 import { useAppTheme } from '../theme/ThemeContext';
 import { TranslatedText } from './TranslatedText';
 import { PrimaryButton } from './PrimaryButton';
+import { ReactElement } from 'react';
 
 type ErrorContentProps = {
   onPress: () => void;
 };
 
-const ErrorContent = (props: ErrorContentProps): JSX.Element => {
+const ErrorContent = (props: ErrorContentProps): ReactElement => {
   const { colors, typography, dimensions } = useAppTheme();
 
   return (

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import { News } from '../../../data/model/news/News';
 import { getNews } from '../../../domain/NewsUseCase';
-import { Result, ResultType } from '../../../data/Result';
+import { ResultType } from '../../../data/Result';
 import { EdgeToEdgeScrollableContent } from '../../catalog/EdgeToEdgeScrollableContent';
 import NewsCard from '../../catalog/NewsCard';
 import Snackbar from 'react-native-snackbar';
@@ -9,26 +9,25 @@ import { ScreenState, State } from '../../components/state/state';
 import { screenStateReducer } from '../../components/state/reducer';
 import { useTranslation } from 'react-i18next';
 import { Action } from '../../components/state/action';
+import { ReactElement } from 'react';
 
-export const NewsScreen = (): JSX.Element => {
+export const NewsScreen = (): ReactElement => {
   const [state, dispatch] = useReducer(screenStateReducer, {
     state: State.LOADING,
   } as ScreenState<News[]>);
   const { t } = useTranslation();
 
-  const getAllNews = useCallback(async () => {
-    let result: Result<News[]> = await getNews();
-
-    switch (result.kind) {
-      case ResultType.Success:
-        console.log('success');
-        dispatch({ type: Action.SHOW_DATA, data: result.data });
-        break;
-      case ResultType.Failure:
-        console.log('failure');
-        dispatch({ type: Action.SHOW_ERROR, message: result.errorMessage });
-        break;
-    }
+  const getAllNews = useCallback(() => {
+    getNews().then(result => {
+      switch (result.kind) {
+        case ResultType.Success:
+          dispatch({ type: Action.SHOW_DATA, data: result.data });
+          break;
+        case ResultType.Failure:
+          dispatch({ type: Action.SHOW_ERROR, message: result.errorMessage });
+          break;
+      }
+    });
   }, []);
 
   useEffect(() => {

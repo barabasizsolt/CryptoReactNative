@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react';
 import ErrorContent from './ErrorContent';
 import { useScrollToTop } from '@react-navigation/native';
 import ScrollUpItem from './ScrollUpItem';
+import { ReactElement } from 'react';
 
 export type ItemSeparator = 'space' | 'divider' | 'undefined';
 
@@ -25,7 +26,7 @@ export type EdgeToEdgeScrollableContent = {
 
 export const EdgeToEdgeScrollableContent = (
   props: EdgeToEdgeScrollableContent,
-): JSX.Element => {
+): ReactElement => {
   const insets = useSafeAreaInsets();
   const { colors, dimensions } = useAppTheme();
 
@@ -34,10 +35,10 @@ export const EdgeToEdgeScrollableContent = (
   const ref = useRef<FlatList<any>>(null);
   useScrollToTop(ref);
 
-  const header = (): JSX.Element => {
+  const header = (): ReactElement => {
     return <View style={{ height: insets.top + dimensions.contentPadding }} />;
   };
-  const footer = (): JSX.Element => {
+  const footer = (): ReactElement => {
     return (
       <View
         style={{
@@ -48,8 +49,8 @@ export const EdgeToEdgeScrollableContent = (
       />
     );
   };
-  const itemSeparator = (): JSX.Element | null => {
-    let separator: JSX.Element | null;
+  const itemSeparator = (): ReactElement | null => {
+    let separator: ReactElement | null;
     switch (props.itemSeparator) {
       case 'space':
         separator = <Spacer />;
@@ -92,7 +93,7 @@ export const EdgeToEdgeScrollableContent = (
           showsVerticalScrollIndicator={false}
           onScroll={event => {
             const { contentOffset } = event.nativeEvent;
-            setShouldShowScrollUp(contentOffset.y > 1000 ? true : false);
+            setShouldShowScrollUp(contentOffset.y > 1000);
           }}
           ref={ref}
         />
@@ -109,12 +110,12 @@ export const EdgeToEdgeScrollableContent = (
   }
 };
 
-export const Spacer = (): JSX.Element => {
+export const Spacer = (): ReactElement => {
   const { dimensions } = useAppTheme();
   return <View style={{ height: dimensions.contentPadding }} />;
 };
 
-export const Divider = (): JSX.Element => {
+export const Divider = (): ReactElement => {
   const { dimensions } = useAppTheme();
   return (
     <View

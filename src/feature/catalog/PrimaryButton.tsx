@@ -1,6 +1,7 @@
 import type { ColorValue, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { useAppTheme } from '../theme/ThemeContext';
 import { Button } from '../components/cta/Button';
+import { ReactElement } from 'react';
 
 interface PrimaryButtonProps {
   textKey: string;
@@ -17,7 +18,7 @@ interface PrimaryButtonProps {
   iosTextStyle?: StyleProp<TextStyle>;
 }
 
-export const PrimaryButton = (props: PrimaryButtonProps) => {
+export const PrimaryButton = (props: PrimaryButtonProps): ReactElement => {
   const { colors, dimensions, typography } = useAppTheme();
   return (
     <Button

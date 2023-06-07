@@ -48,7 +48,7 @@ export function convertToNavigationTheme(theme: Theme): NavigationTheme {
       card: convert(theme.colors.surface),
       text: convert(theme.colors.onBackground),
       border: convert(theme.colors.border),
-      notification: convert(theme.colors.accent),
+      notification: convert(theme.colors.primary),
     },
   };
 }

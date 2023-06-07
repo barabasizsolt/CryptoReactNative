@@ -42,9 +42,12 @@ import { screenStateReducer } from '../../components/state/reducer';
 import { ScreenState, State } from '../../components/state/state';
 import { Action } from '../../components/state/action';
 import { ReactElement } from 'react';
+import BackButton from '../../catalog/BackButton';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const CryptoCurrencyDetailScreen = ({
   route,
+  navigation,
 }: CryptoCurrencyDetailProps): ReactElement => {
   const [detailState, detailDispatch] = useReducer(screenStateReducer, {
     state: State.LOADING,
@@ -57,6 +60,8 @@ const CryptoCurrencyDetailScreen = ({
   const [uiModel, setUiModel] = useState<CryptoDetailUiModelList>([]);
 
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
+  const { dimensions } = useAppTheme();
 
   const getDetail = useCallback(() => {
     Promise.all([
@@ -114,56 +119,70 @@ const CryptoCurrencyDetailScreen = ({
   }, [detailState, historyState, t]);
 
   return (
-    <EdgeToEdgeScrollableContent
-      isLoading={
-        detailState.state === State.LOADING ||
-        historyState.state === State.LOADING
-      }
-      isError={detailState.state === State.LOADING_ERROR}
-      isRefreshing={
-        detailState.state === State.FORCE_REFRESHING ||
-        historyState.state === State.FORCE_REFRESHING
-      }
-      onTryAgain={() => {
-        detailDispatch({ type: Action.LOAD });
-        getDetail();
-      }}
-      onRefresh={() => {
-        detailDispatch({ type: Action.FORCE_REFRESH });
-        getDetail();
-      }}
-      listItems={uiModel}
-      showPaddingHorizontal={false}
-      showExtraBottomPadding={true}
-      itemSeparator="divider"
-      renderItem={({ item }) => {
-        let renderItem: ReactElement;
-        switch (item.id) {
-          case CryptoDetailUiModelType.Header:
-            let header = item as unknown as Header;
-            renderItem = <CryptoHeader data={header} />;
-            break;
-          case CryptoDetailUiModelType.Chart:
-            let chart = item as unknown as Chart;
-            renderItem = (
-              <CryptoChart data={chart.values} coinName={route.params.coinId} />
-            );
-            break;
-          case CryptoDetailUiModelType.Body1:
-            let body1 = item as unknown as Body1;
-            renderItem = <CryptoBody1 data={body1} />;
-            break;
-          case CryptoDetailUiModelType.Body2:
-            let body2 = item as unknown as Body2;
-            renderItem = <CryptoBody2 data={body2} />;
-            break;
-          default:
-            renderItem = <></>;
-            break;
+    <>
+      <EdgeToEdgeScrollableContent
+        isLoading={
+          detailState.state === State.LOADING ||
+          historyState.state === State.LOADING
         }
-        return renderItem;
-      }}
-    />
+        isError={detailState.state === State.LOADING_ERROR}
+        isRefreshing={
+          detailState.state === State.FORCE_REFRESHING ||
+          historyState.state === State.FORCE_REFRESHING
+        }
+        onTryAgain={() => {
+          detailDispatch({ type: Action.LOAD });
+          getDetail();
+        }}
+        onRefresh={() => {
+          detailDispatch({ type: Action.FORCE_REFRESH });
+          getDetail();
+        }}
+        listItems={uiModel}
+        showPaddingHorizontal={false}
+        showExtraBottomPadding={true}
+        itemSeparator="divider"
+        renderItem={({ item }) => {
+          let renderItem: ReactElement;
+          switch (item.id) {
+            case CryptoDetailUiModelType.Header:
+              let header = item as unknown as Header;
+              renderItem = <CryptoHeader data={header} />;
+              break;
+            case CryptoDetailUiModelType.Chart:
+              let chart = item as unknown as Chart;
+              renderItem = (
+                <CryptoChart
+                  data={chart.values}
+                  coinName={route.params.coinId}
+                />
+              );
+              break;
+            case CryptoDetailUiModelType.Body1:
+              let body1 = item as unknown as Body1;
+              renderItem = <CryptoBody1 data={body1} />;
+              break;
+            case CryptoDetailUiModelType.Body2:
+              let body2 = item as unknown as Body2;
+              renderItem = <CryptoBody2 data={body2} />;
+              break;
+            default:
+              renderItem = <></>;
+              break;
+          }
+          return renderItem;
+        }}
+      />
+      <BackButton
+        onBackPress={() => {
+          navigation.pop();
+        }}
+        style={{
+          top: insets.top + dimensions.contentPadding,
+          start: dimensions.screenPadding,
+        }}
+      />
+    </>
   );
 };
 

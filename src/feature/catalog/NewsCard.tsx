@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text } from 'react-native';
-import { News } from '../../data/model/news/News';
+import { News } from '../../core/model/news/News';
 import Card from './Card';
 import { useAppTheme } from '../theme/ThemeContext';
 import { AnimatedPressable } from '../components/touch/AnimatedPressable';

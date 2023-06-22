@@ -1,11 +1,11 @@
 import { CandleStickValue } from 'react-native-charts-wrapper';
-import { CryptoCurrencyDetail } from '../../../data/model/cryptodetail/CryptoCurrencyDetail';
-import { ListItem } from '../../../data/model/ListItem';
+import { CryptoCurrencyDetail } from '../../../core/model/cryptodetail/CryptoCurrencyDetail';
+import { ListItem } from '../../../core/model/ListItem';
 import {
   formatCompactDollarValue,
   formatCompactNumber,
   formatDollarValue,
-} from '../../../data/util/Converter';
+} from '../../../core/util/Converter';
 
 export enum CryptoDetailUiModelType {
   Header,

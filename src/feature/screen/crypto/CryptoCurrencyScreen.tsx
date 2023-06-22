@@ -1,45 +1,24 @@
-import { useCallback, useEffect, useReducer } from 'react';
-import { ResultType } from '../../../data/Result';
-import { CryptoCurrency } from '../../../data/model/crypto/CryptoCurrency';
-import { getCryptoCurrencies } from '../../../domain/CryptoCurrencyUseCase';
+import { useEffect } from 'react';
+import { CryptoCurrency } from '../../../core/model/crypto/CryptoCurrency';
 import CryptoCurrencyCard from '../../catalog/CryptoCurrencyCard';
 import {
   formatCompactDollarValue,
   formatDollarValue,
-} from '../../../data/util/Converter';
+} from '../../../core/util/Converter';
 import { EdgeToEdgeScrollableContent } from '../../catalog/EdgeToEdgeScrollableContent';
 import { CryptoCurrencyProps } from '../../navigation/types';
 import Snackbar from 'react-native-snackbar';
-import { screenStateReducer } from '../../components/state/reducer';
-import { ScreenState, State } from '../../components/state/state';
-import { Action } from '../../components/state/action';
 import { useTranslation } from 'react-i18next';
 import { ReactElement } from 'react';
+import { useCryptoCurrencyScreenState } from './CryptoCurrencyScreenState.hooks';
+import { State } from '../../components/state/state';
 
 const CryptoCurrencyScreen = ({
   navigation,
 }: CryptoCurrencyProps): ReactElement => {
-  const [state, dispatch] = useReducer(screenStateReducer, {
-    state: State.LOADING,
-  } as ScreenState<CryptoCurrency[]>);
   const { t } = useTranslation();
-
-  const getAllCryptoCurrency = useCallback(() => {
-    getCryptoCurrencies().then(result => {
-      switch (result.kind) {
-        case ResultType.Success:
-          dispatch({ type: Action.SHOW_DATA, data: result.data });
-          break;
-        case ResultType.Failure:
-          dispatch({ type: Action.SHOW_ERROR, message: result.errorMessage });
-          break;
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    getAllCryptoCurrency();
-  }, [getAllCryptoCurrency]);
+  const { state, getCryptoCurrencies, swipeRefreshAction, loadAction } =
+    useCryptoCurrencyScreenState();
 
   useEffect(() => {
     if (state.state === State.SWIPE_REFRESH_ERROR) {
@@ -55,13 +34,13 @@ const CryptoCurrencyScreen = ({
       isLoading={state.state === State.LOADING}
       isError={state.state === State.LOADING_ERROR}
       onTryAgain={() => {
-        dispatch({ type: Action.LOAD });
-        getAllCryptoCurrency();
+        loadAction();
+        getCryptoCurrencies();
       }}
       isRefreshing={state.state === State.FORCE_REFRESHING}
       onRefresh={() => {
-        dispatch({ type: Action.FORCE_REFRESH });
-        getAllCryptoCurrency();
+        swipeRefreshAction();
+        getCryptoCurrencies();
       }}
       listItems={state.data as CryptoCurrency[]}
       showPaddingHorizontal={true}

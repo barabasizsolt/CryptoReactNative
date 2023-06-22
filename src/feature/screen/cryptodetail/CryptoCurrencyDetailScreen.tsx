@@ -7,25 +7,19 @@ import {
 } from 'react-native';
 import { CryptoCurrencyDetailProps } from '../../navigation/types';
 import { useAppTheme } from '../../theme/ThemeContext';
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
-import { ResultType } from '../../../data/Result';
-import { getCryptoCurrencyHistory } from '../../../domain/CryptoCurrencyHistoryUseCase';
+import React, { useEffect } from 'react';
 import {
   CandleStickChart,
   CandleStickValue,
 } from 'react-native-charts-wrapper';
 import { getChartXAxis, getLeftChartYAxis } from './chart/axis';
 import { getChartData, getMarker } from './chart/data';
-import { getCryptoCurrencyDetail } from '../../../domain/CryptoCurrencyDetailUseCase';
-import { CryptoCurrencyDetail } from '../../../data/model/cryptodetail/CryptoCurrencyDetail';
 import {
   Body1,
   Body2,
   Chart,
-  CryptoDetailUiModelList,
   CryptoDetailUiModelType,
   Header,
-  getCryptoDetailUiModelList,
 } from './uiModel';
 import {
   Divider,
@@ -38,65 +32,27 @@ import Card from '../../catalog/Card';
 import { TranslatedText } from '../../catalog/TranslatedText';
 import { useTranslation } from 'react-i18next';
 import Snackbar from 'react-native-snackbar';
-import { screenStateReducer } from '../../components/state/reducer';
-import { ScreenState, State } from '../../components/state/state';
-import { Action } from '../../components/state/action';
 import { ReactElement } from 'react';
 import BackButton from '../../catalog/BackButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useCryptoCurrencyDetailScreenState } from './CryptoCurrencyDetailScreenState.hooks';
+import { State } from '../../components/state/state';
 
 const CryptoCurrencyDetailScreen = ({
   route,
   navigation,
 }: CryptoCurrencyDetailProps): ReactElement => {
-  const [detailState, detailDispatch] = useReducer(screenStateReducer, {
-    state: State.LOADING,
-  } as ScreenState<CryptoCurrencyDetail>);
-
-  const [historyState, historyDispatch] = useReducer(screenStateReducer, {
-    state: State.LOADING,
-  } as ScreenState<Array<CandleStickValue>>);
-
-  const [uiModel, setUiModel] = useState<CryptoDetailUiModelList>([]);
-
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { dimensions } = useAppTheme();
-
-  const getDetail = useCallback(() => {
-    Promise.all([
-      getCryptoCurrencyHistory(route.params.coinId),
-      getCryptoCurrencyDetail(route.params.coinId),
-    ]).then(([historyResult, detailResult]) => {
-      switch (historyResult.kind) {
-        case ResultType.Success:
-          historyDispatch({ type: Action.SHOW_DATA, data: historyResult.data });
-          break;
-        case ResultType.Failure:
-          historyDispatch({
-            type: Action.SHOW_ERROR,
-            message: historyResult.errorMessage,
-          });
-          break;
-      }
-
-      switch (detailResult.kind) {
-        case ResultType.Success:
-          detailDispatch({ type: Action.SHOW_DATA, data: detailResult.data });
-          break;
-        case ResultType.Failure:
-          detailDispatch({
-            type: Action.SHOW_ERROR,
-            message: detailResult.errorMessage,
-          });
-          break;
-      }
-    });
-  }, [route.params.coinId]);
-
-  useEffect(() => {
-    getDetail();
-  }, [route.params.coinId, getDetail]);
+  const {
+    detailState,
+    historyState,
+    uiModel,
+    getDetail,
+    swipeRefreshAction,
+    loadAction,
+  } = useCryptoCurrencyDetailScreenState(route.params.coinId);
 
   useEffect(() => {
     if (
@@ -107,14 +63,6 @@ const CryptoCurrencyDetailScreen = ({
         text: t('error_title'),
         duration: Snackbar.LENGTH_LONG,
       });
-    }
-    if (detailState.state === State.DATA && historyState.state === State.DATA) {
-      setUiModel(
-        getCryptoDetailUiModelList(
-          detailState.data as CryptoCurrencyDetail,
-          historyState.data as Array<CandleStickValue>,
-        ),
-      );
     }
   }, [detailState, historyState, t]);
 
@@ -131,11 +79,11 @@ const CryptoCurrencyDetailScreen = ({
           historyState.state === State.FORCE_REFRESHING
         }
         onTryAgain={() => {
-          detailDispatch({ type: Action.LOAD });
+          loadAction();
           getDetail();
         }}
         onRefresh={() => {
-          detailDispatch({ type: Action.FORCE_REFRESH });
+          swipeRefreshAction();
           getDetail();
         }}
         listItems={uiModel}

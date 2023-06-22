@@ -2,7 +2,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppTheme } from '../theme/ThemeContext';
 import { FlatList, ListRenderItem, View } from 'react-native';
 import LoadingIndicator from './LoadingIndicator';
-import { ListItem } from '../../data/model/ListItem';
+import { ListItem } from '../../core/model/ListItem';
 import React, { useRef, useState } from 'react';
 import ErrorContent from './ErrorContent';
 import { useScrollToTop } from '@react-navigation/native';

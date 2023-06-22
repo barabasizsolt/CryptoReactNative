@@ -13,7 +13,6 @@ export const NewsScreen = (): ReactElement => {
     useNewsScreenState();
 
   useEffect(() => {
-    console.log(`<<state: ${state.state}`);
     if (state.state === State.SWIPE_REFRESH_ERROR) {
       Snackbar.show({
         text: t('error_title'),

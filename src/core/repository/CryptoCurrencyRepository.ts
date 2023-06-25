@@ -4,10 +4,14 @@ import {
   convertToCryptoCurrency,
 } from '../model/crypto/CryptoCurrencyDto';
 import { executeGet } from '../api/ApiResultWrapper';
+import { Environment } from '../../environment';
 
-export const fetchCryptoCurrencies = (vsCurrency: string) =>
+export const fetchCryptoCurrencies = () =>
   executeGet<CryptoCurrencyDto[], CryptoCurrency[]>(
-    `/coins/markets?vs_currency=${vsCurrency}`,
+    `coins`,
     (result: any): CryptoCurrency[] =>
-      result.map((dto: CryptoCurrencyDto) => convertToCryptoCurrency(dto)),
+      result.data.coins.map((dto: CryptoCurrencyDto) =>
+        convertToCryptoCurrency(dto),
+      ),
+    Environment.coinRankingUrl,
   );

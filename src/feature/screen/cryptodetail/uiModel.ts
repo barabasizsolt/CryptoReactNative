@@ -41,9 +41,12 @@ export type Body2 = {
   supply: string;
   circulatingSupply: string;
   fullyDiluatedValue: string;
-  high24: string;
-  low24: string;
+  allTimeHighPrice: string;
+  allTimeHigDate: string;
   btcPrice: string;
+  websiteUrl: string;
+  numberOfMarkets: string;
+  numberOfExchanges: string;
   description: string;
 };
 
@@ -80,9 +83,12 @@ export const getCryptoDetailUiModelList = (
       supply: formatCompactNumber(detail.supply),
       circulatingSupply: formatCompactNumber(detail.circulatingSupply),
       fullyDiluatedValue: formatCompactNumber(detail.fullyDilutedValuation),
-      high24: formatDollarValue(detail.high24),
-      low24: formatDollarValue(detail.low24),
+      allTimeHighPrice: formatDollarValue(detail.allTimeHighPrice),
+      allTimeHigDate: detail.allTimeHighDate,
       btcPrice: detail.btcPrice,
+      websiteUrl: detail.website,
+      numberOfMarkets: detail.numberOfMarkets,
+      numberOfExchanges: detail.numberOfExchanges,
       description: detail.description,
     },
   ];

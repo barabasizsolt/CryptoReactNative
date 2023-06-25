@@ -1,10 +1,11 @@
 import React, { memo } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useAppTheme } from '../theme/ThemeContext';
 import Card from './Card';
 import { AnimatedPressable } from '../components/touch/AnimatedPressable';
 import { TranslatedText } from './TranslatedText';
 import { ReactElement } from 'react';
+import FastImage from 'react-native-fast-image';
 
 type CryptoCurrencyProps = {
   name: string;
@@ -53,8 +54,12 @@ const CryptoCurrencyLogo = (props: CryptoCurrencyProps): ReactElement => {
     <View
       style={[styles.logoContainer, { padding: dimensions.contentPadding }]}>
       <View style={styles.logo}>
-        <Image
-          source={{ uri: props.logoUrl }}
+        <FastImage
+          source={{
+            uri: props.logoUrl,
+            priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.contain}
           style={{
             width: dimensions.logoSize,
             height: dimensions.logoSize,

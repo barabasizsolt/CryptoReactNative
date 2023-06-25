@@ -1,10 +1,11 @@
-import { Image, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { News } from '../../core/model/news/News';
 import Card from './Card';
 import { useAppTheme } from '../theme/ThemeContext';
 import { AnimatedPressable } from '../components/touch/AnimatedPressable';
 import { openUrl } from '../util/OpenUrl';
 import { memo, ReactElement } from 'react';
+import FastImage from 'react-native-fast-image';
 
 type NewsCardProps = {
   news: News;
@@ -22,8 +23,11 @@ const NewsCard = (props: NewsCardProps): ReactElement => {
         }}
         android_ripple={{ color: colors.rippleColor }}
         onPress={_ => openUrl(props.news.url)}>
-        <Image
-          source={{ uri: props.news.thumbnail }}
+        <FastImage
+          source={{
+            uri: props.news.thumbnail,
+            priority: FastImage.priority.normal,
+          }}
           style={[
             styles.thumbnail,
             {

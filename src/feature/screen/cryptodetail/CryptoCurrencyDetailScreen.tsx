@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  useWindowDimensions,
-} from 'react-native';
+import { StyleSheet, View, Text, useWindowDimensions } from 'react-native';
 import { CryptoCurrencyDetailProps } from '../../navigation/types';
 import { useAppTheme } from '../../theme/ThemeContext';
 import React, { useEffect } from 'react';
@@ -18,6 +12,7 @@ import {
   Body1,
   Body2,
   Chart,
+  CryptoDetailUiModelList,
   CryptoDetailUiModelType,
   Header,
 } from './uiModel';
@@ -37,6 +32,7 @@ import BackButton from '../../catalog/BackButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCryptoCurrencyDetailScreenState } from './CryptoCurrencyDetailScreenState.hooks';
 import { State } from '../../components/state/state';
+import FastImage from 'react-native-fast-image';
 
 const CryptoCurrencyDetailScreen = ({
   route,
@@ -45,39 +41,24 @@ const CryptoCurrencyDetailScreen = ({
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { dimensions } = useAppTheme();
-  const {
-    detailState,
-    historyState,
-    uiModel,
-    getDetail,
-    swipeRefreshAction,
-    loadAction,
-  } = useCryptoCurrencyDetailScreenState(route.params.coinId);
+  const { state, getDetail, swipeRefreshAction, loadAction } =
+    useCryptoCurrencyDetailScreenState(route.params.coinId);
 
   useEffect(() => {
-    if (
-      detailState.state === State.SWIPE_REFRESH_ERROR ||
-      historyState.state === State.SWIPE_REFRESH_ERROR
-    ) {
+    if (state.state === State.SWIPE_REFRESH_ERROR) {
       Snackbar.show({
         text: t('error_title'),
         duration: Snackbar.LENGTH_LONG,
       });
     }
-  }, [detailState, historyState, t]);
+  }, [state, t]);
 
   return (
     <>
       <EdgeToEdgeScrollableContent
-        isLoading={
-          detailState.state === State.LOADING ||
-          historyState.state === State.LOADING
-        }
-        isError={detailState.state === State.LOADING_ERROR}
-        isRefreshing={
-          detailState.state === State.FORCE_REFRESHING ||
-          historyState.state === State.FORCE_REFRESHING
-        }
+        isLoading={state.state === State.LOADING}
+        isError={state.state === State.LOADING_ERROR}
+        isRefreshing={state.state === State.FORCE_REFRESHING}
         onTryAgain={() => {
           loadAction();
           getDetail();
@@ -86,7 +67,7 @@ const CryptoCurrencyDetailScreen = ({
           swipeRefreshAction();
           getDetail();
         }}
-        listItems={uiModel}
+        listItems={state.data as CryptoDetailUiModelList}
         showPaddingHorizontal={false}
         showExtraBottomPadding={true}
         itemSeparator="divider"
@@ -143,8 +124,12 @@ const CryptoHeader = (props: CryptoHeaderProps): ReactElement => {
 
   return (
     <View style={styles.headerContainer}>
-      <Image
-        source={{ uri: props.data.imageUrl }}
+      <FastImage
+        source={{
+          uri: props.data.imageUrl,
+          priority: FastImage.priority.normal,
+        }}
+        resizeMode={FastImage.resizeMode.contain}
         style={{
           width: dimensions.logoSize,
           height: dimensions.logoSize,
@@ -327,18 +312,6 @@ const CryptoBody2 = (props: CryptoBody2Props): ReactElement => {
         showDoublePaddingStart={false}
       />
       <CryptoBody2DetailItem
-        holder={t('24h_high')}
-        value={props.data.high24}
-        showDelimiter={true}
-        showDoublePaddingStart={false}
-      />
-      <CryptoBody2DetailItem
-        holder={t('24h_low')}
-        value={props.data.low24}
-        showDelimiter={true}
-        showDoublePaddingStart={false}
-      />
-      <CryptoBody2DetailItem
         holder={t('supply')}
         value={props.data.supply}
         showDelimiter={false}
@@ -350,12 +323,47 @@ const CryptoBody2 = (props: CryptoBody2Props): ReactElement => {
         showDelimiter={true}
         showDoublePaddingStart={true}
       />
+
       <CryptoBody2DetailItem
         holder={t('btc_price')}
         value={props.data.btcPrice}
         showDelimiter={true}
         showDoublePaddingStart={false}
       />
+
+      <CryptoBody2DetailItem
+        holder={t('number_of_markets')}
+        value={props.data.numberOfMarkets}
+        showDelimiter={true}
+        showDoublePaddingStart={false}
+      />
+      <CryptoBody2DetailItem
+        holder={t('number_of_exchanges')}
+        value={props.data.numberOfExchanges}
+        showDelimiter={true}
+        showDoublePaddingStart={false}
+      />
+
+      <CryptoBody2DetailItem
+        holder={t('all_time_high')}
+        value={props.data.allTimeHighPrice}
+        showDelimiter={false}
+        showDoublePaddingStart={false}
+      />
+      <CryptoBody2DetailItem
+        holder={t('date')}
+        value={props.data.allTimeHigDate}
+        showDelimiter={true}
+        showDoublePaddingStart={true}
+      />
+
+      <CryptoBody2DetailItem
+        holder={t('website_url')}
+        value={props.data.websiteUrl}
+        showDelimiter={true}
+        showDoublePaddingStart={false}
+      />
+
       <CryptoBody2DetailDescriptiom description={props.data.description} />
     </Card>
   );
@@ -392,11 +400,23 @@ const CryptoBody2DetailItem = (
             props.showDoublePaddingStart
               ? typography.smallLabel
               : typography.inputLabel,
-            { fontWeight: props.showDoublePaddingStart ? 'normal' : 'bold' },
+            {
+              fontWeight: props.showDoublePaddingStart ? 'normal' : 'bold',
+              paddingEnd: dimensions.contentPadding * 3,
+            },
           ]}>
           {props.holder}
         </Text>
-        <Text style={typography.inputLabel}>{props.value}</Text>
+        <Text
+          style={[
+            typography.inputLabel,
+            {
+              flexShrink: 1,
+            },
+          ]}
+          numberOfLines={1}>
+          {props.value}
+        </Text>
       </View>
       {delimiter}
     </>
@@ -442,7 +462,7 @@ const styles = StyleSheet.create({
 
   chart: {
     width: '100%',
-    aspectRatio: 1.4,
+    aspectRatio: 1.2,
   },
 
   body1Container: {

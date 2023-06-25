@@ -16,6 +16,11 @@
         "error_title": "Something went wrong",
         "error_msg": "Try again later.",
         "try_again": "Try again",
-        "scroll_up": "Scroll Up"
+        "scroll_up": "Scroll Up",
+        "number_of_markets": "Number Of Markets",
+        "number_of_exchanges": "Number of Exchanges",
+        "all_time_high": "All Time High",
+        "date": "date",
+        "website_url": "Website URL"
     }
 }

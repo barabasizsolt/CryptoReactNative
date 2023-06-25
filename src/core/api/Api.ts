@@ -1,7 +1,7 @@
 import { Environment } from '../../environment';
 
-const BASE_URL = Environment.baseUrl;
-// const ACCESS_TOKEN = Environment.accessToken;
+//const BASE_URL = Environment.baseUrl;
+const ACCESS_TOKEN = Environment.accessToken;
 
 export enum HttpMethod {
   GET = 'GET',
@@ -26,17 +26,22 @@ export async function apiHelper(
   method = HttpMethod.GET,
   path: string,
   params: ApiParams = {},
+  baseUrl: string | undefined,
 ) {
-  let url = `${BASE_URL}${path}`;
+  let url = `${baseUrl}${path}`;
+
+  let requestHeader: HeadersInit_ = {
+    'Cache-Control': 'no-cache',
+    Pragma: 'no-cache',
+    Expires: '0',
+  };
+  if (baseUrl === Environment.coinRankingUrl && ACCESS_TOKEN) {
+    requestHeader['x-access-token'] = ACCESS_TOKEN;
+  }
 
   const defaultOptions: RequestInit = {
     method,
-    // headers: { 'x-access-token': ACCESS_TOKEN } as HeadersInit_,
-    headers: {
-      'Cache-Control': 'no-cache',
-      Pragma: 'no-cache',
-      Expires: '0',
-    },
+    headers: requestHeader,
   };
 
   let requestOptions = { ...defaultOptions };

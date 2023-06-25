@@ -55,3 +55,22 @@ export function formatCompactNumber(value: string): string {
 
   return formattedValue;
 }
+
+export const formatTimestamp = (timestamp: number): string => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  };
+
+  const formattedDate: string = new Intl.DateTimeFormat(
+    'en-US',
+    options,
+  ).format(timestamp);
+
+  return formattedDate;
+};
+
+export const iconUrlConverter = (url: string): string => {
+  return url.endsWith('svg') ? url.replace('svg', 'png') : url;
+};

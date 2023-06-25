@@ -6,6 +6,7 @@ export interface CryptoCurrencyDetail extends ListItem {
   name: string;
   description: string;
   image: string;
+  website: string;
   marketCap: string;
   marketCapRank: string;
   fullyDilutedValuation: string;
@@ -15,6 +16,8 @@ export interface CryptoCurrencyDetail extends ListItem {
   volume: string;
   supply: string;
   circulatingSupply: string;
-  high24: string;
-  low24: string;
+  allTimeHighPrice: string;
+  allTimeHighDate: string;
+  numberOfMarkets: string;
+  numberOfExchanges: string;
 }

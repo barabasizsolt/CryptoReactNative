@@ -16,6 +16,11 @@
         "error_title": "Valami elromlott",
         "error_msg": "Próbálja újra később.",
         "try_again": "Próbálja újra",
-        "scroll_up": "Görgess fel"
+        "scroll_up": "Görgess fel",
+        "number_of_markets": "Piacok száma",
+        "number_of_exchanges": "Váltók száma",
+        "all_time_high": "Minden idők rekordja",
+        "date": "dátum",
+        "website_url": "Weboldal Link"
     }
 }

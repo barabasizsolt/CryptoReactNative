@@ -4,9 +4,12 @@ import {
   convertToCryptoCurrencyDetail,
 } from '../model/cryptodetail/CryptoCurrencyDetailDto';
 import { executeGet } from '../api/ApiResultWrapper';
+import { Environment } from '../../environment';
 
-export const fetchCryptoCurrencyDetail = (id: string = 'bitcoin') =>
+export const fetchCryptoCurrencyDetail = (id: string) =>
   executeGet<CryptoCurrencyDetailDto, CryptoCurrencyDetail>(
-    `coins/${id}?localization=false`,
-    (dto: any): CryptoCurrencyDetail => convertToCryptoCurrencyDetail(dto),
+    `coin/${id}`,
+    (dto: any): CryptoCurrencyDetail =>
+      convertToCryptoCurrencyDetail(dto.data.coin),
+    Environment.coinRankingUrl,
   );

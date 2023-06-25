@@ -6,7 +6,7 @@ import { ScreenState, State } from '../../components/state/state';
 import { fetchCryptoCurrencies } from '../../../core/repository/CryptoCurrencyRepository';
 import { Action } from '../../components/state/action';
 
-export const useCryptoCurrencyScreenState = (vsCurrency = 'usd') => {
+export const useCryptoCurrencyScreenState = () => {
   const [state, dispatch] = useReducer(screenStateReducer, {
     state: State.LOADING,
   } as ScreenState<CryptoCurrency[]>);
@@ -20,12 +20,13 @@ export const useCryptoCurrencyScreenState = (vsCurrency = 'usd') => {
   }, []);
 
   const getCryptoCurrencies = useCallback(() => {
-    fetchCryptoCurrencies(vsCurrency).then(result => {
+    fetchCryptoCurrencies().then(result => {
       switch (result.kind) {
         case ResultType.Success:
           dispatch({ type: Action.SHOW_DATA, data: result.data });
           break;
         case ResultType.Failure:
+          console.log(`<<ERR: ${result.errorMessage}`);
           dispatch({
             type: Action.SHOW_ERROR,
             message: result.errorMessage || 'Something went wrong',
@@ -33,7 +34,7 @@ export const useCryptoCurrencyScreenState = (vsCurrency = 'usd') => {
           break;
       }
     });
-  }, [vsCurrency]);
+  }, []);
 
   useEffect(() => {
     getCryptoCurrencies();

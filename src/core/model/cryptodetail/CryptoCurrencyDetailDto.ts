@@ -1,44 +1,35 @@
 import * as Yup from 'yup';
 import { CryptoCurrencyDetail } from './CryptoCurrencyDetail';
+import { formatTimestamp, iconUrlConverter } from '../../util/Converter';
 
-const CryptoCurrencyDetailDescriptionValidationScheme = Yup.object().shape({
-  en: Yup.string().nullable(),
+const CryptoCurrencyDetailSupplyValidationScheme = Yup.object().shape({
+  max: Yup.string().nullable(),
+  circulating: Yup.string().nullable(),
 });
 
-const CryptoCurrencyDetailImageValidationScheme = Yup.object().shape({
-  large: Yup.string().nullable(),
-});
-
-const CryptoCurrencyDetailPriceValidationScheme = Yup.object().shape({
-  usd: Yup.string().nullable(),
-  btc: Yup.string().nullable(),
-});
-
-const CryptoCurrencyDetailGeneralPriceValidationScheme = Yup.object().shape({
-  usd: Yup.string().nullable(),
-});
-
-const CryptoCurrencyDetailMarketDataValidationScheme = Yup.object().shape({
-  current_price: CryptoCurrencyDetailPriceValidationScheme,
-  price_change_percentage_24h_in_currency:
-    CryptoCurrencyDetailGeneralPriceValidationScheme,
-  total_volume: CryptoCurrencyDetailGeneralPriceValidationScheme,
-  market_cap: CryptoCurrencyDetailGeneralPriceValidationScheme,
-  fully_diluted_valuation: CryptoCurrencyDetailGeneralPriceValidationScheme,
-  total_supply: Yup.string().nullable(),
-  circulating_supply: Yup.string().nullable(),
-  high_24h: CryptoCurrencyDetailGeneralPriceValidationScheme,
-  low_24h: CryptoCurrencyDetailGeneralPriceValidationScheme,
+const CryptoCurrencyDetailAllTimeHighValidationScheme = Yup.object().shape({
+  price: Yup.string().nullable(),
+  timestamp: Yup.number().nullable(),
 });
 
 const CryptoCurrencyDetailValidationScheme = Yup.object().shape({
-  id: Yup.string().required('uuidIsRequired'),
+  uuid: Yup.string().required('uuidIsRequired'),
   symbol: Yup.string().nullable(),
   name: Yup.string().nullable(),
-  market_cap_rank: Yup.string().nullable(),
-  description: CryptoCurrencyDetailDescriptionValidationScheme,
-  image: CryptoCurrencyDetailImageValidationScheme,
-  market_data: CryptoCurrencyDetailMarketDataValidationScheme,
+  description: Yup.string().nullable(),
+  websiteUrl: Yup.string().nullable(),
+  iconUrl: Yup.string().nullable(),
+  price: Yup.string().nullable(),
+  marketCap: Yup.string().nullable(),
+  '24hVolume': Yup.string().nullable(),
+  rank: Yup.number().nullable(),
+  fullyDilutedMarketCap: Yup.string().nullable(),
+  btcPrice: Yup.string().nullable(),
+  change: Yup.string().nullable(),
+  numberOfMarkets: Yup.number().nullable(),
+  numberOfExchanges: Yup.number().nullable(),
+  supply: CryptoCurrencyDetailSupplyValidationScheme,
+  allTimeHigh: CryptoCurrencyDetailAllTimeHighValidationScheme,
 });
 
 export type CryptoCurrencyDetailDto = Yup.InferType<
@@ -49,27 +40,28 @@ export function convertToCryptoCurrencyDetail(
   dto: CryptoCurrencyDetailDto,
 ): CryptoCurrencyDetail {
   return {
-    id: dto.id.toString(),
-    symbol: dto.symbol?.toUpperCase() ?? '',
+    id: dto.uuid.toString(),
+    symbol: dto.symbol ?? '',
     name: dto.name ?? '',
-    description: dto.description.en ?? 'No description found',
-    image: dto.image.large ?? '',
-    marketCap: dto.market_data.market_cap.usd ?? '0.00',
-    marketCapRank: dto.market_cap_rank ?? '0',
-    fullyDilutedValuation: dto.market_data.fully_diluted_valuation.usd ?? '0',
-    price: dto.market_data.current_price.usd ?? '0.00',
-    btcPrice: Number(dto.market_data.current_price.btc ?? '0.00')
+    description: dto.description ?? 'No description found',
+    image: iconUrlConverter(dto.iconUrl ?? ''),
+    website: dto.websiteUrl ?? '',
+    price: dto.price ?? '0.00',
+    marketCap: dto.marketCap ?? '0.00',
+    marketCapRank: (dto.rank ?? '0').toString(),
+    volume: dto['24hVolume'] ?? '0.00',
+    fullyDilutedValuation: dto.fullyDilutedMarketCap ?? '0',
+    btcPrice: parseFloat(dto.btcPrice ?? '0.00')
       .toFixed(6)
       .toString(),
-    change: parseFloat(
-      dto.market_data.price_change_percentage_24h_in_currency.usd ?? '0.00',
-    )
+    change: parseFloat(dto.change ?? '0.00')
       .toFixed(2)
       .toString(),
-    volume: dto.market_data.total_volume.usd ?? '0.00',
-    supply: dto.market_data.total_supply ?? '0.00',
-    circulatingSupply: dto.market_data.circulating_supply ?? '0.00',
-    high24: dto.market_data.high_24h.usd ?? '0.00',
-    low24: dto.market_data.low_24h.usd ?? '0.00',
+    supply: dto.supply.max ?? '0.00',
+    circulatingSupply: dto.supply.circulating ?? '0.00',
+    allTimeHighPrice: dto.allTimeHigh.price ?? '0.00',
+    allTimeHighDate: formatTimestamp(1636502400 ?? 0),
+    numberOfMarkets: (dto.numberOfMarkets ?? 0).toString(),
+    numberOfExchanges: (dto.numberOfExchanges ?? 0).toString(),
   };
 }

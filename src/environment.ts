@@ -1,4 +1,5 @@
 export const Environment = {
-  baseUrl: process.env.BASE_URL,
+  coinRankingUrl: process.env.COINRANKING_URL,
+  coinGekkoUrl: process.env.COINGEKKO_URL,
   accessToken: process.env.ACCESS_TOKEN,
 };

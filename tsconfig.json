@@ -2,5 +2,6 @@
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
     "types": ["node", /* other types */]
-  }
+  },
+  "noUncheckedIndexedAccess": true //ex: gives compile-time error on undefined obj properties
 }

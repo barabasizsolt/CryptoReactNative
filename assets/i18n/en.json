@@ -1,7 +1,12 @@
 {
     "translations": {
+        "login": "Log In",
+        "logout": "Log Out",
+
         "label_market": "Market",
         "label_news": "News",
+        "label_settings": "Settings",
+
         "24h": "24h",
         "vol": "Vol",
         "cap": "Cap",

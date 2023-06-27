@@ -1,7 +1,12 @@
 {
     "translations": {
+        "login": "Bejelentkezés",
+        "logout": "Kijelentkezés",
+
         "label_market": "Piac",
         "label_news": "Hírek",
+        "label_settings": "Beállítások",
+
         "24h": "24h",
         "vol": "Vol",
         "cap": "Cap",

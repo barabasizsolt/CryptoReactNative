@@ -6,19 +6,27 @@ import {
   useDeviceLanguageCode,
   onLanguageChange,
 } from './src/i18n_init';
+import rootReducer from './src/core/redux/reducers';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
 
 initializeLocalization();
 
+const store = configureStore({ reducer: rootReducer });
+
 const App = (): JSX.Element => {
   const languageCode = useDeviceLanguageCode();
+
   useEffect(() => {
     onLanguageChange(languageCode);
   }, [languageCode]);
 
   return (
-    <ThemeProvider>
-      <ThemedNavigationContainer />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider>
+        <ThemedNavigationContainer />
+      </ThemeProvider>
+    </Provider>
   );
 };
 

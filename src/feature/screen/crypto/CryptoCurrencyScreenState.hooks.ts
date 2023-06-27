@@ -26,7 +26,6 @@ export const useCryptoCurrencyScreenState = () => {
           dispatch({ type: Action.SHOW_DATA, data: result.data });
           break;
         case ResultType.Failure:
-          console.log(`<<ERR: ${result.errorMessage}`);
           dispatch({
             type: Action.SHOW_ERROR,
             message: result.errorMessage || 'Something went wrong',

@@ -6,9 +6,10 @@ export enum ResultType {
 }
 
 export type Result<T> =
-  | { kind: ResultType.Success; data: T }
+  | { kind: ResultType.Success; data: T | undefined }
   | { kind: ResultType.Failure; errorMessage: any };
 
+// TODO: use this inside ApiWrapper.
 export const wrapToResult = async <T, R>(
   func: (...params: any[]) => Promise<AxiosResponse<T>>,
   dataConverter: (result: T) => R,

@@ -14,6 +14,7 @@ export type AppNavParamList = {
 export type BottomNavParamList = {
   Market: undefined;
   News: undefined;
+  Settings: undefined;
 };
 
 export type CryptoCurrencyDetailProps = NativeStackScreenProps<

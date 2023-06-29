@@ -37,6 +37,7 @@ export type ColorTheme = {
   overlay: ColorValue;
   bottomNavSelected: string;
   bottomNavNotSelected: string;
+  disabled: string;
 };
 
 export const LightColorTheme: ColorTheme = {
@@ -57,6 +58,7 @@ export const LightColorTheme: ColorTheme = {
   overlay: colors.blackOverlay,
   bottomNavSelected: colors.orange400,
   bottomNavNotSelected: colors.dimgray,
+  disabled: colors.dimgray,
 };
 
 export const DarkColorTheme: ColorTheme = {
@@ -77,4 +79,5 @@ export const DarkColorTheme: ColorTheme = {
   overlay: colors.blackOverlay,
   bottomNavSelected: colors.orange700,
   bottomNavNotSelected: colors.lightgrey,
+  disabled: colors.dimgray,
 };

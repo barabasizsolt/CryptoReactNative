@@ -20,7 +20,11 @@ const SettingsScreen = (): ReactElement => {
             width: '100%',
             paddingHorizontal: dimensions.screenPadding,
           }}>
-          <PrimaryButton textKey={'logout'} onPress={doLogout} />
+          <PrimaryButton
+            textKey={'logout'}
+            onPress={doLogout}
+            isEnabled={true}
+          />
         </View>
       </View>
     );

@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { screenStateReducer } from '../../components/state/reducer';
 import { ScreenState, State } from '../../components/state/state';
@@ -11,6 +11,15 @@ export const useLoginScreenState = () => {
     state: State.DATA,
   } as ScreenState<void>);
   const dispatch = useDispatch();
+
+  const [email, onEmailChange] = useState<string>('');
+  const [password, onPasswordChange] = useState<string>('');
+  const [isLoginButtonEnabled, setIsLoginButtonEnabled] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    setIsLoginButtonEnabled(email.length !== 0 && password.length !== 0);
+  }, [email, password]);
 
   const doLogin = useCallback(() => {
     screenDispatch({ type: Action.LOAD });
@@ -29,5 +38,13 @@ export const useLoginScreenState = () => {
     });
   }, [dispatch]);
 
-  return { screenState, doLogin };
+  return {
+    screenState,
+    doLogin,
+    email,
+    onEmailChange,
+    password,
+    onPasswordChange,
+    isLoginButtonEnabled,
+  };
 };

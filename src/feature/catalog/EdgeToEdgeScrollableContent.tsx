@@ -8,6 +8,7 @@ import ErrorContent from './ErrorContent';
 import { useScrollToTop } from '@react-navigation/native';
 import ScrollUpItem from './ScrollUpItem';
 import { ReactElement } from 'react';
+import { useKeyboard } from '../components/hooks/keyboard';
 
 export type ItemSeparator = 'space' | 'divider' | 'undefined';
 
@@ -22,6 +23,7 @@ export type EdgeToEdgeScrollableContent = {
   showPaddingHorizontal: boolean;
   showExtraBottomPadding: boolean;
   itemSeparator: ItemSeparator;
+  spaceHeight?: number;
 };
 
 export const EdgeToEdgeScrollableContent = (
@@ -29,8 +31,8 @@ export const EdgeToEdgeScrollableContent = (
 ): ReactElement => {
   const insets = useSafeAreaInsets();
   const { colors, dimensions } = useAppTheme();
-
   const [shouldShowScrollUp, setShouldShowScrollUp] = useState<boolean>(false);
+  const { keyboardOpen, keyboardHeight } = useKeyboard();
 
   const ref = useRef<FlatList<any>>(null);
   useScrollToTop(ref);
@@ -38,6 +40,7 @@ export const EdgeToEdgeScrollableContent = (
   const header = (): ReactElement => {
     return <View style={{ height: insets.top + dimensions.contentPadding }} />;
   };
+
   const footer = (): ReactElement => {
     return (
       <View
@@ -49,11 +52,12 @@ export const EdgeToEdgeScrollableContent = (
       />
     );
   };
+
   const itemSeparator = (): ReactElement | null => {
     let separator: ReactElement | null;
     switch (props.itemSeparator) {
       case 'space':
-        separator = <Spacer />;
+        separator = <Spacer height={props.spaceHeight} />;
         break;
       case 'divider':
         separator = <Divider />;
@@ -96,6 +100,11 @@ export const EdgeToEdgeScrollableContent = (
             setShouldShowScrollUp(contentOffset.y > 1000);
           }}
           ref={ref}
+          style={{
+            marginBottom: keyboardOpen
+              ? keyboardHeight + dimensions.screenPadding * 2
+              : 0,
+          }}
         />
 
         <ScrollUpItem
@@ -110,9 +119,19 @@ export const EdgeToEdgeScrollableContent = (
   }
 };
 
-export const Spacer = (): ReactElement => {
+type SpacerProps = {
+  height?: number;
+};
+
+export const Spacer = (props: SpacerProps): ReactElement => {
   const { dimensions } = useAppTheme();
-  return <View style={{ height: dimensions.contentPadding }} />;
+  return (
+    <View
+      style={{
+        height: props.height ?? dimensions.contentPadding,
+      }}
+    />
+  );
 };
 
 export const Divider = (): ReactElement => {

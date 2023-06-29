@@ -1,57 +1,58 @@
-import type { ColorValue, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import { StyleSheet, type ColorValue, Pressable, Platform } from 'react-native';
 import { useAppTheme } from '../theme/ThemeContext';
-import { Button } from '../components/cta/Button';
 import { ReactElement } from 'react';
+//import { Pressable } from '@react-native-material/core';
+import { TranslatedText } from './TranslatedText';
 
 interface PrimaryButtonProps {
   textKey: string;
   onPress: () => void;
   backgroundColor?: ColorValue;
   onBackgroundTextColor?: ColorValue;
-  androidRippleColor?: ColorValue;
-  onBackgroundOverlayColor?: ColorValue;
-  backgroundBorderRadius?: number;
-  onBackgroundTextStyle?: StyleProp<TextStyle>;
-  backgroundStyle?: StyleProp<ViewStyle>;
-  iosTextColor?: ColorValue;
-  iosOverlayColor?: ColorValue;
-  iosTextStyle?: StyleProp<TextStyle>;
+  borderRadius?: number;
+  isEnabled: boolean;
+  isBoldText?: boolean;
 }
 
 export const PrimaryButton = (props: PrimaryButtonProps): ReactElement => {
-  const { colors, dimensions, typography } = useAppTheme();
+  const { colors, typography, shapes } = useAppTheme();
   return (
-    <Button
-      onPress={props.onPress}
-      androidRippleColor={props.androidRippleColor ?? colors.rippleColor}
-      backgroundColor={props.backgroundColor ?? colors.primary}
-      onBackgroundOverlayColor={
-        props.onBackgroundOverlayColor ?? colors.rippleColor
-      }
-      onBackgroundTextColor={props.onBackgroundTextColor ?? colors.onPrimary}
-      iosOverlayColor={props.iosOverlayColor ?? colors.rippleColor}
-      iosTextColor={props.iosTextColor ?? colors.primary}
-      textKey={props.textKey}
-      onBackgroundTextStyle={[
-        typography.section,
+    <Pressable
+      onPress={props.isEnabled ? props.onPress : void 0}
+      android_ripple={{ color: colors.rippleColor }}
+      style={({ pressed }) => [
+        styles.holder,
         {
-          marginHorizontal: dimensions.buttonTextHorizontalPadding,
-          marginVertical: dimensions.buttonTextVerticalPadding,
+          backgroundColor: props.isEnabled
+            ? Platform.OS === 'ios' && pressed
+              ? colors.rippleColor
+              : props.backgroundColor ?? colors.primary
+            : colors.rippleColor,
+          borderRadius: props.borderRadius ?? shapes.small,
         },
-        props.onBackgroundTextStyle,
-      ]}
-      iosTextStyle={[
-        typography.section,
-        {
-          marginHorizontal: dimensions.buttonTextHorizontalPadding,
-          marginVertical: dimensions.buttonTextVerticalPadding,
-        },
-        props.iosTextStyle,
-      ]}
-      backgroundStyle={[props.backgroundStyle]}
-      backgroundBorderRadius={
-        props.backgroundBorderRadius ?? dimensions.buttonBorderRadius
-      }
-    />
+      ]}>
+      <TranslatedText
+        textKey={props.textKey}
+        style={[
+          typography.inputLabel,
+          {
+            color: props.isEnabled
+              ? props.onBackgroundTextColor ?? colors.onPrimary
+              : 'black',
+            fontWeight: props.isBoldText ? 'bold' : 'normal',
+          },
+        ]}
+      />
+    </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  holder: {
+    minWidth: 48,
+    minHeight: 48,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

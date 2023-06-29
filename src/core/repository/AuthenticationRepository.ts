@@ -20,7 +20,6 @@ export const isLoggedIn = async () => {
 };
 
 const authenticationHelper = async (isLoggedIn: LoggedInValue) => {
-  console.log(`isLoggedIn: ${isLoggedIn}`);
   try {
     await AsyncStorage.setItem(IS_LOGGED_IN_KEY, isLoggedIn);
     await sleep(1000); // Sleep for 1000 milliseconds

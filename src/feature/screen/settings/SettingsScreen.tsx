@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
 import { View } from 'react-native';
-import { PrimaryButton } from '../../catalog/PrimaryButton';
+import { PrimaryButton } from '../../components/catalog/PrimaryButton';
 import { useAppTheme } from '../../theme/ThemeContext';
 import { useSettingsScreenState } from './SettingsScreenState.hooks';
-import LoadingIndicator from '../../catalog/LoadingIndicator';
+import LoadingIndicator from '../../components/catalog/LoadingIndicator';
 import { State } from '../../components/state/state';
 
 const SettingsScreen = (): ReactElement => {
@@ -24,6 +24,10 @@ const SettingsScreen = (): ReactElement => {
             textKey={'logout'}
             onPress={doLogout}
             isEnabled={true}
+            textStyle={{
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+            }}
           />
         </View>
       </View>

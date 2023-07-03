@@ -6,20 +6,20 @@ import React, {
   forwardRef,
 } from 'react';
 import { Text, View, Pressable, Platform } from 'react-native';
-import { PrimaryButton } from '../../catalog/PrimaryButton';
+import { PrimaryButton } from '../../components/catalog/PrimaryButton';
 import { useAppTheme } from '../../theme/ThemeContext';
 import { useLoginScreenState } from './LoginScreenState.hooks';
 import { State } from '../../components/state/state';
-import { EdgeToEdgeScrollableContent } from '../../catalog/EdgeToEdgeScrollableContent';
+import { EdgeToEdgeScrollableContent } from '../../components/catalog/EdgeToEdgeScrollableContent';
 import Bitcoin from './../../../../assets/images/thumbnails/btc.svg';
 import { listItems } from './uiModel';
 import { Divider as MDivider /*Pressable*/ } from '@react-native-material/core';
-import { GoogleLoginButton } from '../../catalog/GoogleLoginButton';
-import AuthenticationTextInput from '../../catalog/AuthenticationTextInput';
+import { GoogleLoginButton } from '../../components/catalog/GoogleLoginButton';
+import AuthenticationTextInput from '../../components/catalog/AuthenticationTextInput';
 import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TextInput } from 'react-native-gesture-handler';
-import { TranslatedText } from '../../catalog/TranslatedText';
+import { TranslatedText } from '../../components/catalog/TranslatedText';
 
 const LoginScreen = (): ReactElement => {
   const {
@@ -155,9 +155,8 @@ const Divider = (): ReactElement => {
               paddingTop: dimensions.screenPadding,
               color: colors.disabled,
             },
-          ]}>
-          Or
-        </TranslatedText>
+          ]}
+        />
       </View>
       <MDivider
         style={{
@@ -238,7 +237,6 @@ const PasswordInput = forwardRef<TextInput, PasswordInputProps>(
             alignSelf: 'center',
             paddingEnd: dimensions.screenPadding * 2,
           }}
-          //pressEffect="none"
           onPress={() => {
             setVisible(!visible);
           }}>
@@ -286,7 +284,10 @@ const LoginButton = (props: LoginButtonProps): ReactElement => {
         textKey={'login'}
         onPress={props.doLogin}
         isEnabled={props.isEnabled}
-        isBoldText={true}
+        textStyle={{
+          fontWeight: 'bold',
+          textTransform: 'uppercase',
+        }}
       />
       <PrimaryButton
         textKey={'forgot_password'}

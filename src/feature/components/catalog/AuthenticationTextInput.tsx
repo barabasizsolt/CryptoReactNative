@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { useAppTheme } from '../theme/ThemeContext';
+import { useAppTheme } from '../../theme/ThemeContext';
 
 type AuthenticationTextInputProps = {
   holderStyle?: StyleProp<ViewStyle> | undefined;

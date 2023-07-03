@@ -6,7 +6,7 @@ import { useAppTheme } from '../../theme/ThemeContext';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavParamList } from '../types';
 import CryptoCurrencyScreen from '../../screen/crypto/CryptoCurrencyScreen';
-import { TranslatedText } from '../../catalog/TranslatedText';
+import { TranslatedText } from '../../components/catalog/TranslatedText';
 import { ReactElement } from 'react';
 import SettingsScreen from '../../screen/settings/SettingsScreen';
 

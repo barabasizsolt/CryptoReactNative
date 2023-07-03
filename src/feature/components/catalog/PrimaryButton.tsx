@@ -1,7 +1,13 @@
-import { StyleSheet, type ColorValue, Pressable, Platform } from 'react-native';
-import { useAppTheme } from '../theme/ThemeContext';
+import {
+  StyleSheet,
+  type ColorValue,
+  Pressable,
+  Platform,
+  StyleProp,
+  TextStyle,
+} from 'react-native';
+import { useAppTheme } from '../../theme/ThemeContext';
 import { ReactElement } from 'react';
-//import { Pressable } from '@react-native-material/core';
 import { TranslatedText } from './TranslatedText';
 
 interface PrimaryButtonProps {
@@ -11,7 +17,7 @@ interface PrimaryButtonProps {
   onBackgroundTextColor?: ColorValue;
   borderRadius?: number;
   isEnabled: boolean;
-  isBoldText?: boolean;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 export const PrimaryButton = (props: PrimaryButtonProps): ReactElement => {
@@ -35,11 +41,11 @@ export const PrimaryButton = (props: PrimaryButtonProps): ReactElement => {
         textKey={props.textKey}
         style={[
           typography.inputLabel,
+          props.textStyle,
           {
             color: props.isEnabled
               ? props.onBackgroundTextColor ?? colors.onPrimary
               : 'black',
-            fontWeight: props.isBoldText ? 'bold' : 'normal',
           },
         ]}
       />

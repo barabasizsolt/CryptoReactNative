@@ -9,7 +9,7 @@ import { MainStackNavigator } from './main/MainNavigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../core/redux/reducers';
 import { isLoggedIn } from '../../core/repository/AuthenticationRepository';
-import LoadingIndicator from '../catalog/LoadingIndicator';
+import LoadingIndicator from '../components/catalog/LoadingIndicator';
 
 export const ThemedNavigationContainer = () => {
   const navigationTheme = useNavigationTheme();

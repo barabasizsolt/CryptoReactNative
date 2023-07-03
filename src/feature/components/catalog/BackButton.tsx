@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
-import { AnimatedPressable } from '../components/touch/AnimatedPressable';
-import { useAppTheme } from '../theme/ThemeContext';
+import { AnimatedPressable } from '../touch/AnimatedPressable';
+import { useAppTheme } from '../../theme/ThemeContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type BackButtonProps = {

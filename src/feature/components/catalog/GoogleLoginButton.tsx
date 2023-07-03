@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 import { StyleSheet } from 'react-native';
-import { useAppTheme } from '../theme/ThemeContext';
+import { useAppTheme } from '../../theme/ThemeContext';
 import { TranslatedText } from './TranslatedText';
 import { Pressable } from '@react-native-material/core';
-import Google from './../../../assets/images/thumbnails/google_logo.svg';
+import Google from './../..//../../assets/images/thumbnails/google_logo.svg';
 
 type GoogleLoginButtonProps = {
   onPress: () => void;
@@ -26,7 +26,7 @@ export const GoogleLoginButton = (
           borderWidth: isDark ? 0 : 2,
         },
       ]}>
-      <Google width={36} height={36} />
+      <Google width={24} height={24} />
       <TranslatedText
         textKey={'google_login'}
         style={[
@@ -35,6 +35,7 @@ export const GoogleLoginButton = (
             color: 'black',
             fontWeight: 'bold',
             paddingStart: dimensions.contentPadding,
+            textTransform: 'uppercase',
           },
         ]}
       />

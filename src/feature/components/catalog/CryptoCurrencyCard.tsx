@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useAppTheme } from '../theme/ThemeContext';
+import { useAppTheme } from '../../theme/ThemeContext';
 import Card from './Card';
-import { AnimatedPressable } from '../components/touch/AnimatedPressable';
+import { AnimatedPressable } from '../touch/AnimatedPressable';
 import { TranslatedText } from './TranslatedText';
 import { ReactElement } from 'react';
 import FastImage from 'react-native-fast-image';

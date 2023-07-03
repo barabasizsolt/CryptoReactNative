@@ -1,7 +1,7 @@
 import { News } from '../../../core/model/news/News';
 import { useNewsScreenState } from './NewsScreenState.hooks';
-import { EdgeToEdgeScrollableContent } from '../../catalog/EdgeToEdgeScrollableContent';
-import NewsCard from '../../catalog/NewsCard';
+import { EdgeToEdgeScrollableContent } from '../../components/catalog/EdgeToEdgeScrollableContent';
+import NewsCard from '../../components/catalog/NewsCard';
 import Snackbar from 'react-native-snackbar';
 import { useTranslation } from 'react-i18next';
 import { ReactElement, useEffect } from 'react';

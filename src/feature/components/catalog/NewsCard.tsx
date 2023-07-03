@@ -1,9 +1,9 @@
 import { StyleSheet, Text } from 'react-native';
-import { News } from '../../core/model/news/News';
+import { News } from '../../../core/model/news/News';
 import Card from './Card';
-import { useAppTheme } from '../theme/ThemeContext';
-import { AnimatedPressable } from '../components/touch/AnimatedPressable';
-import { openUrl } from '../util/OpenUrl';
+import { useAppTheme } from '../../theme/ThemeContext';
+import { AnimatedPressable } from '../touch/AnimatedPressable';
+import { openUrl } from '../../util/OpenUrl';
 import { memo, ReactElement } from 'react';
 import FastImage from 'react-native-fast-image';
 

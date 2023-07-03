@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { CryptoCurrency } from '../../../core/model/crypto/CryptoCurrency';
-import CryptoCurrencyCard from '../../catalog/CryptoCurrencyCard';
+import CryptoCurrencyCard from '../../components/catalog/CryptoCurrencyCard';
 import {
   formatCompactDollarValue,
   formatDollarValue,
 } from '../../../core/util/Converter';
-import { EdgeToEdgeScrollableContent } from '../../catalog/EdgeToEdgeScrollableContent';
+import { EdgeToEdgeScrollableContent } from '../../components/catalog/EdgeToEdgeScrollableContent';
 import { CryptoCurrencyProps } from '../../navigation/types';
 import Snackbar from 'react-native-snackbar';
 import { useTranslation } from 'react-i18next';

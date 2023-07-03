@@ -19,16 +19,16 @@ import {
 import {
   Divider,
   EdgeToEdgeScrollableContent,
-} from '../../catalog/EdgeToEdgeScrollableContent';
+} from '../../components/catalog/EdgeToEdgeScrollableContent';
 import { getFormattedTime } from '../../util/Date';
 import { getOrdinal } from '../../util/Order';
 import RenderHtml from 'react-native-render-html';
-import Card from '../../catalog/Card';
-import { TranslatedText } from '../../catalog/TranslatedText';
+import Card from '../../components/catalog/Card';
+import { TranslatedText } from '../../components/catalog/TranslatedText';
 import { useTranslation } from 'react-i18next';
 import Snackbar from 'react-native-snackbar';
 import { ReactElement } from 'react';
-import BackButton from '../../catalog/BackButton';
+import BackButton from '../../components/catalog/BackButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCryptoCurrencyDetailScreenState } from './CryptoCurrencyDetailScreenState.hooks';
 import { State } from '../../components/state/state';

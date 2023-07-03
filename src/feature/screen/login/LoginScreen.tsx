@@ -5,7 +5,7 @@ import React, {
   RefObject,
   forwardRef,
 } from 'react';
-import { Text, View, Pressable, Platform } from 'react-native';
+import { Text, View, Pressable, Platform, Keyboard } from 'react-native';
 import { PrimaryButton } from '../../components/catalog/PrimaryButton';
 import { useAppTheme } from '../../theme/ThemeContext';
 import { useLoginScreenState } from './LoginScreenState.hooks';
@@ -69,7 +69,10 @@ const LoginScreen = (): ReactElement => {
                 onPasswordChange={onPasswordChange}
                 ref={passwordInputRef}
                 isLoginEnabled={isLoginButtonEnabled}
-                doLogin={doLogin}
+                doLogin={() => {
+                  Keyboard.dismiss();
+                  doLogin();
+                }}
               />
             );
             break;

@@ -293,11 +293,11 @@ const CryptoBody2 = (props: CryptoBody2Props): ReactElement => {
   return (
     <Card
       style={{
-        borderRadius: shapes.small,
+        borderTopLeftRadius: shapes.medium,
+        borderTopRightRadius: shapes.medium,
         backgroundColor: colors.surface,
         paddingHorizontal: dimensions.contentPadding,
         paddingTop: dimensions.contentPadding * 2,
-        marginHorizontal: dimensions.contentPadding,
       }}>
       <CryptoBody2DetailItem
         holder={t('market_cap_rank')}

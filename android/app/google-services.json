@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "150616005439",
+    "project_id": "cryptoreactnative-9928c",
+    "storage_bucket": "cryptoreactnative-9928c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150616005439:android:5fc89263e7e764a377918a",
+        "android_client_info": {
+          "package_name": "com.movareactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150616005439-gd2ds6vlo2n4bg5g34odgmui0dbca95n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.movareactnative",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "150616005439-p0ksvq5f81d76hf8ffil3ub8jvii032p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPilqE5tFFcO7ZymBNscf4nBh4RqG6j2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150616005439-p0ksvq5f81d76hf8ffil3ub8jvii032p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

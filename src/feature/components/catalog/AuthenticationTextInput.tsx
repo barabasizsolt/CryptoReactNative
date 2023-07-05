@@ -46,7 +46,7 @@ const AuthenticationTextInput = (
         },
       ]}>
       <TextInput
-        placeholderTextColor={colors.onBackground}
+        placeholderTextColor={colors.disabled}
         style={[
           {
             paddingHorizontal: dimensions.screenPadding,

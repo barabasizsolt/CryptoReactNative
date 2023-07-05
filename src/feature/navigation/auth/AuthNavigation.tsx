@@ -1,12 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from '../../screen/login/LoginScreen';
+import AuthScreen from '../../screen/auth/AuthScreen';
 
 const AuthStack = createStackNavigator();
 
 export const AuthStackNavigator = () => {
   return (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen name="LogIn" component={LoginScreen} />
+      <AuthStack.Screen name="Auth" component={AuthScreen} />
     </AuthStack.Navigator>
   );
 };

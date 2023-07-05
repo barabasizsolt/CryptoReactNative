@@ -11,7 +11,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
 initializeLocalization();
-
 const store = configureStore({ reducer: rootReducer });
 
 const App = (): JSX.Element => {

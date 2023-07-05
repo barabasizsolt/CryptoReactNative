@@ -1,14 +1,18 @@
 {
     "translations": {
         "login": "Bejelentkezés",
+        "register": "Regisztráció",
         "logout": "Kijelentkezés",
         "google_login": "Bejelentkezés Google Fiókkal",
         "forgot_password": "Elfelejtette jelszavát?",
         "email": "E-mail",
         "password": "Jelszó",
         "dont_have_account": "Nincs még fiókja?",
+        "already_have_account": "Van már fiókja?",
         "sign_up": " Regisztráljon",
         "or": "vagy folytassa",
+        "login_title": "Bejelentkezés a fiókjába",
+        "register_title": "Fiók létrehozása",
 
         "label_market": "Piac",
         "label_news": "Hírek",

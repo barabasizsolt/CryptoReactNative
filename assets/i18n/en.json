@@ -1,14 +1,17 @@
 {
     "translations": {
-        "login": "Log In",
-        "logout": "Log Out",
+        "login": "Sign In",
+        "register": "Sign Up",
+        "logout": "Sign Out",
         "google_login": "Sign In With Google",
         "forgot_password": "Forgot Password?",
         "email": "Email",
         "password": "Password",
         "dont_have_account": "Don't have an account?",
-        "sign_up": " Sign Up",
+        "already_have_account": "Already have an account?",
         "or": "or continue with",
+        "login_title": "Sign In To Your Account",
+        "register_title": "Create Your Account",
 
         "label_market": "Market",
         "label_news": "News",

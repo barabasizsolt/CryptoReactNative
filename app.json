@@ -5,6 +5,7 @@
     "package": "com.brbsy.cryptoreactnative"
   },
   "ios": {
-    "bundleIdentifier": "com.brbsy.cryptoreactnative"
+    "bundleIdentifier": "com.brbsy.cryptoreactnative",
+    "useFrameworks": "static"
   }
 }

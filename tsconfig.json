@@ -3,5 +3,6 @@
   "compilerOptions": {
     "types": ["node", /* other types */]
   },
-  "noUncheckedIndexedAccess": true //ex: gives compile-time error on undefined obj properties
+  "allowSyntheticDefaultImports": true,
+  "noUncheckedIndexedAccess": true //ex: gives compile-time error on undefined obj properties,
 }

@@ -46,8 +46,9 @@ export const EdgeToEdgeScrollableContent = (
       <View
         style={{
           height:
-            (props.showExtraBottomPadding ? insets.bottom : 0) +
-            dimensions.contentPadding,
+            (props.showExtraBottomPadding && !keyboardOpen
+              ? insets.bottom
+              : 0) + dimensions.contentPadding,
         }}
       />
     );
@@ -135,12 +136,13 @@ export const Spacer = (props: SpacerProps): ReactElement => {
 };
 
 export const Divider = (): ReactElement => {
-  const { dimensions } = useAppTheme();
+  const { dimensions, colors } = useAppTheme();
+
   return (
     <View
       style={{
-        backgroundColor: '#838383',
-        height: 0.4,
+        backgroundColor: colors.disabled,
+        height: 1,
         width: '100%',
         marginVertical: dimensions.contentPadding,
       }}

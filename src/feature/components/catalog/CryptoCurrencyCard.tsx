@@ -1,11 +1,9 @@
-import React, { memo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { ReactNode, memo } from 'react';
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { useAppTheme } from '../../theme/ThemeContext';
-import Card from './Card';
-import { AnimatedPressable } from '../touch/AnimatedPressable';
-import { TranslatedText } from './TranslatedText';
 import { ReactElement } from 'react';
 import FastImage from 'react-native-fast-image';
+import { PressableCard } from './PressableCard';
 
 type CryptoCurrencyProps = {
   name: string;
@@ -19,183 +17,183 @@ type CryptoCurrencyProps = {
 };
 
 const CryptoCurrencyCard = (props: CryptoCurrencyProps): ReactElement => {
-  const { colors, shapes } = useAppTheme();
-
   return (
-    <Card
-      style={[
-        styles.container,
-        { borderRadius: shapes.small, backgroundColor: colors.surface },
-      ]}>
-      <CryptoCurrencyHolder {...props} />
-      <CryptoCurrencyPrice {...props} />
-    </Card>
+    <PressableCard onItemClick={props.onItemClick}>
+      <CryptoCurrencyHolder>
+        <CryptoCurrencyLogo {...props} />
+        <CryptoCurrencyPrice {...props} />
+      </CryptoCurrencyHolder>
+    </PressableCard>
   );
 };
 
-const CryptoCurrencyHolder = (props: CryptoCurrencyProps): ReactElement => {
-  const { colors, shapes } = useAppTheme();
+type CryptoCurrencyHolderProps = {
+  style?: StyleProp<ViewStyle> | undefined;
+  children: ReactNode;
+};
+
+const CryptoCurrencyHolder = (
+  props: CryptoCurrencyHolderProps,
+): ReactElement => {
+  const { dimensions } = useAppTheme();
 
   return (
-    <AnimatedPressable
-      overlayViewStyle={[styles.holder, { borderRadius: shapes.small }]}
-      android_ripple={{ color: colors.rippleColor }}
-      onPress={props.onItemClick}>
-      <CryptoCurrencyLogo {...props} />
-      <CryptoCurrencyDetails {...props} />
-    </AnimatedPressable>
+    <View
+      style={[
+        props.style,
+        styles.holder,
+        { paddingHorizontal: dimensions.screenPadding },
+      ]}>
+      {props.children}
+    </View>
   );
 };
 
 const CryptoCurrencyLogo = (props: CryptoCurrencyProps): ReactElement => {
-  const { dimensions, typography, colors } = useAppTheme();
+  return (
+    <CryptoLogoBody>
+      <Image uri={props.logoUrl} />
+      <CryptoLogoInfoHolder>
+        <Symbol symbol={props.symbol} />
+        <Name name={props.name} />
+      </CryptoLogoInfoHolder>
+    </CryptoLogoBody>
+  );
+};
+
+type ImageProps = { uri: string };
+
+const Image = ({ uri }: ImageProps): ReactElement => {
+  const { dimensions } = useAppTheme();
+
+  return (
+    <FastImage
+      source={{
+        uri: uri,
+        priority: FastImage.priority.normal,
+      }}
+      resizeMode={FastImage.resizeMode.contain}
+      style={{
+        width: dimensions.logoSize,
+        height: dimensions.logoSize,
+      }}
+    />
+  );
+};
+
+type CryptoLogoBodyProps = {
+  style?: StyleProp<ViewStyle> | undefined;
+  children: ReactNode;
+};
+
+const CryptoLogoBody = (props: CryptoLogoBodyProps): ReactElement => {
+  const { dimensions } = useAppTheme();
 
   return (
     <View
-      style={[styles.logoContainer, { padding: dimensions.contentPadding }]}>
-      <View style={styles.logo}>
-        <FastImage
-          source={{
-            uri: props.logoUrl,
-            priority: FastImage.priority.normal,
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-          style={{
-            width: dimensions.logoSize,
-            height: dimensions.logoSize,
-            margin: dimensions.smallPadding,
-          }}
-        />
-        <Text
-          style={[typography.smallLabel, { color: colors.onSurfaceSecondary }]}>
-          {props.symbol}
-        </Text>
-      </View>
-      <Text style={[typography.smallLabel, { fontWeight: 'bold' }]}>
-        {props.name}
-      </Text>
+      style={[
+        props.style,
+        styles.logo,
+        { paddingVertical: dimensions.contentPadding * 2 },
+      ]}>
+      {props.children}
     </View>
+  );
+};
+
+type CryptoLogoInfoHolder = {
+  style?: StyleProp<ViewStyle> | undefined;
+  children: ReactNode;
+};
+
+const CryptoLogoInfoHolder = (props: CryptoLogoInfoHolder): ReactElement => {
+  const { dimensions } = useAppTheme();
+
+  return (
+    <View
+      style={[
+        props.style,
+        {
+          justifyContent: 'center',
+          paddingStart: dimensions.contentPadding,
+        },
+      ]}>
+      {props.children}
+    </View>
+  );
+};
+
+type SymbolProps = { symbol: string };
+
+const Symbol = ({ symbol }: SymbolProps): ReactElement => {
+  const { typography } = useAppTheme();
+
+  return (
+    <Text style={[typography.inputLabel, { fontWeight: 'bold' }]}>
+      {symbol}
+    </Text>
+  );
+};
+
+type NameProps = { name: string };
+
+const Name = ({ name }: NameProps): ReactElement => {
+  const { typography, colors } = useAppTheme();
+
+  return (
+    <Text
+      numberOfLines={2}
+      style={[
+        typography.smallLabel,
+        {
+          color: colors.onSurfaceSecondary,
+          maxWidth: 120,
+        },
+      ]}>
+      {name}
+    </Text>
   );
 };
 
 const CryptoCurrencyPrice = (props: CryptoCurrencyProps): ReactElement => {
-  const { typography } = useAppTheme();
-
   return (
-    <AnimatedPressable
-      overlayViewStyle={styles.price}
-      android_ripple={{}}
-      onPress={props.onItemClick}>
-      <Text numberOfLines={1} style={typography.title}>
-        {props.price}
-      </Text>
-    </AnimatedPressable>
-  );
-};
-
-const CryptoCurrencyDetails = (props: CryptoCurrencyProps): ReactElement => {
-  const { dimensions, typography, colors } = useAppTheme();
-
-  return (
-    <View
-      style={[styles.detailContainer, { padding: dimensions.contentPadding }]}>
-      <View
-        style={[
-          styles.detailItemHolder,
-          { paddingEnd: dimensions.smallPadding },
-        ]}>
-        <Text
-          style={[
-            typography.smallLabel,
-            styles.itemValue,
-            { color: parseFloat(props.change) <= 0.0 ? 'red' : 'green' },
-          ]}>
-          {parseFloat(props.change) <= 0.0
-            ? `${props.change}%`
-            : `+${props.change}%`}
-        </Text>
-        <Text
-          style={[
-            typography.smallLabel,
-            styles.itemValue,
-            { color: colors.onSurfaceSecondary },
-          ]}>
-          {props.volume}
-        </Text>
-        <Text
-          style={[
-            typography.smallLabel,
-            styles.itemValue,
-            { color: colors.onSurfaceSecondary },
-          ]}>
-          {props.marketCap}
-        </Text>
-      </View>
-      <View style={styles.detailItemHolder}>
-        <TranslatedText
-          style={[typography.smallLabel, styles.itemName]}
-          textKey="24h"
-        />
-        <TranslatedText
-          style={[typography.smallLabel, styles.itemName]}
-          textKey="vol"
-        />
-        <TranslatedText
-          style={[typography.smallLabel, styles.itemName]}
-          textKey="cap"
-        />
-      </View>
+    <View>
+      <Price price={props.price} />
+      <Change change={props.change} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+type PriceProps = { price: string };
 
-  holder: {
-    flexDirection: 'row' /* Main-axis direction */,
-    flexWrap: 'nowrap',
-    justifyContent: 'space-between' /* Main-axis: - horizontal */,
-    //alignItems: 'center', /* Cross-axis: - vertical */
-    width: '100%',
-  },
+const Price = ({ price }: PriceProps): ReactElement => {
+  const { typography } = useAppTheme();
 
-  logoContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  logo: {
-    flexDirection: 'row',
-  },
-  name: {
-    fontWeight: 'bold',
-  },
+  return (
+    <Text numberOfLines={1} style={[typography.title]}>
+      {price}
+    </Text>
+  );
+};
 
-  price: {
-    alignSelf: 'center',
-    position: 'absolute',
-  },
+type ChangeProps = { change: string };
 
-  detailContainer: {
-    flexDirection: 'row',
-  },
-  detailItemHolder: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-  },
+const Change = ({ change }: ChangeProps): ReactElement => {
+  const { typography } = useAppTheme();
 
-  itemName: {
-    fontWeight: 'bold',
-  },
-  itemValue: {
-    alignSelf: 'flex-end',
-  },
-});
+  return (
+    <Text
+      style={[
+        typography.inputLabel,
+        {
+          color: parseFloat(change) <= 0.0 ? 'red' : 'green',
+          alignSelf: 'flex-end',
+        },
+      ]}>
+      {parseFloat(change) <= 0.0 ? `${change}%` : `+${change}%`}
+    </Text>
+  );
+};
 
 const areEqual = (
   prevProps: CryptoCurrencyProps,
@@ -215,5 +213,20 @@ const areEqual = (
     return false;
   }
 };
+
+const styles = StyleSheet.create({
+  card: {
+    overflow: 'hidden',
+  },
+  holder: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  logo: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+});
 
 export default memo(CryptoCurrencyCard, areEqual);

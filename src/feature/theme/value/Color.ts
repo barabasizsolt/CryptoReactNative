@@ -15,8 +15,10 @@ const colors = {
   blueGrey800: '#37474FFF',
   blackOverlay: '#00000090',
   whiteOverlay: '#FFFFFF80',
+  grey: '#9E9E9E',
   lightgrey: '#D3D3D3',
   dimgray: '#696969',
+  darkgrey: '#616161',
 };
 
 export type ColorTheme = {
@@ -53,12 +55,12 @@ export const LightColorTheme: ColorTheme = {
   onError: colors.white,
   selection: colors.blackOverlay,
   border: colors.blueGrey800,
-  rippleColor: colors.blackOverlay,
+  rippleColor: colors.lightgrey,
   placeholderColor: colors.blueGrey800,
   overlay: colors.blackOverlay,
   bottomNavSelected: colors.orange400,
   bottomNavNotSelected: colors.dimgray,
-  disabled: colors.dimgray,
+  disabled: colors.grey,
 };
 
 export const DarkColorTheme: ColorTheme = {

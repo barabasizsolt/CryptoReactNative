@@ -295,7 +295,9 @@ const CryptoBody2 = (props: CryptoBody2Props): ReactElement => {
       style={{
         borderTopLeftRadius: shapes.medium,
         borderTopRightRadius: shapes.medium,
-        backgroundColor: colors.surface,
+        borderColor: colors.onBackground,
+        borderWidth: 1,
+        backgroundColor: colors.background,
         paddingHorizontal: dimensions.contentPadding,
         paddingTop: dimensions.contentPadding * 2,
       }}>

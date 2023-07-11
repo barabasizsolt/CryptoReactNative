@@ -15,7 +15,6 @@ type BackButtonProps = {
   onBackPress: () => void;
 };
 
-/* TODO: Refactor it */
 const BackButton = (props: BackButtonProps): ReactElement => {
   const { colors, dimensions } = useAppTheme();
   return (
@@ -40,7 +39,6 @@ const BackButton = (props: BackButtonProps): ReactElement => {
                   ? colors.rippleColor
                   : colors.background
                 : colors.background,
-
             justifyContent: 'center',
             alignItems: 'center',
           },

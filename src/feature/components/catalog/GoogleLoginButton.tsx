@@ -1,8 +1,7 @@
 import React, { ReactElement } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Pressable, Platform } from 'react-native';
 import { useAppTheme } from '../../theme/ThemeContext';
 import { TranslatedText } from './TranslatedText';
-import { Pressable } from '@react-native-material/core';
 import Google from './../..//../../assets/images/thumbnails/google_logo.svg';
 
 type GoogleLoginButtonProps = {
@@ -15,31 +14,35 @@ export const GoogleLoginButton = (
   const { dimensions, typography, shapes, colors, isDark } = useAppTheme();
 
   return (
-    <Pressable
-      onPress={props.onPress}
-      pressEffectColor={colors.disabled}
-      style={[
-        styles.holder,
-        {
-          borderRadius: shapes.small,
-          borderColor: colors.disabled,
-          borderWidth: isDark ? 0 : 2,
-        },
-      ]}>
-      <Google width={24} height={24} />
-      <TranslatedText
-        textKey={'google_login'}
-        style={[
-          typography.inputLabel,
+    <View style={{ borderRadius: shapes.large, overflow: 'hidden' }}>
+      <Pressable
+        onPress={props.onPress}
+        android_ripple={{ color: colors.overlay }}
+        style={({ pressed }) => [
+          styles.holder,
           {
-            color: 'black',
-            fontWeight: 'bold',
-            paddingStart: dimensions.contentPadding,
-            textTransform: 'uppercase',
+            borderRadius: shapes.large,
+            borderColor: colors.onBackground,
+            borderWidth: isDark ? 0 : 1,
+            backgroundColor:
+              Platform.OS === 'ios' && pressed ? colors.rippleColor : 'white',
           },
-        ]}
-      />
-    </Pressable>
+        ]}>
+        <Google width={24} height={24} />
+        <TranslatedText
+          textKey={'google_login'}
+          style={[
+            typography.smallLabel,
+            {
+              color: 'black',
+              fontWeight: 'bold',
+              paddingStart: dimensions.contentPadding,
+              textTransform: 'uppercase',
+            },
+          ]}
+        />
+      </Pressable>
+    </View>
   );
 };
 

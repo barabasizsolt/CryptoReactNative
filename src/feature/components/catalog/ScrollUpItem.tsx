@@ -1,17 +1,17 @@
-import { useTranslation } from 'react-i18next';
 import {
   Animated,
+  Platform,
+  Pressable,
   StyleProp,
   StyleSheet,
-  Text,
   View,
   ViewStyle,
 } from 'react-native';
 import { useAppTheme } from '../../theme/ThemeContext';
-import { AnimatedPressable } from '../touch/AnimatedPressable';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useEffect, useState, ReactElement } from 'react';
+import { useEffect, useState, ReactElement, ReactNode } from 'react';
+import { TranslatedText } from './TranslatedText';
 
 type ScrollUpItemProps = {
   style?: StyleProp<ViewStyle> | undefined;
@@ -20,8 +20,26 @@ type ScrollUpItemProps = {
 };
 
 const ScrollUpItem = (props: ScrollUpItemProps): ReactElement => {
-  const { t } = useTranslation();
-  const { dimensions, typography, colors, shapes } = useAppTheme();
+  return (
+    <ScrollUpAnimatedWrapper isVisible={props.isVisible} style={props.style}>
+      <ScrollUpHolder onClick={props.onClick}>
+        <MaterialCommunityIcons name="arrow-up" color="white" size={20} />
+        <ScrollUpText />
+      </ScrollUpHolder>
+    </ScrollUpAnimatedWrapper>
+  );
+};
+
+type ScrollUpAnimatedWrapperProps = {
+  style?: StyleProp<ViewStyle> | undefined;
+  children: ReactNode;
+  isVisible: boolean;
+};
+
+const ScrollUpAnimatedWrapper = (
+  props: ScrollUpAnimatedWrapperProps,
+): ReactElement => {
+  const { dimensions } = useAppTheme();
   const insets = useSafeAreaInsets();
 
   const [fadeAnim] = useState(new Animated.Value(0));
@@ -48,19 +66,46 @@ const ScrollUpItem = (props: ScrollUpItemProps): ReactElement => {
       style={[
         props.style,
         {
-          opacity: fadeAnim,
-          transform: [{ scale: scaleAnim }],
           zIndex: 1,
           position: 'absolute',
+          opacity: fadeAnim,
+          transform: [{ scale: scaleAnim }],
           top: insets.bottom + dimensions.screenPadding * 2,
         },
       ]}>
-      <AnimatedPressable
+      {props.children}
+    </Animated.View>
+  );
+};
+
+type ScrollUpHolderProps = {
+  style?: StyleProp<ViewStyle> | undefined;
+  children: ReactNode;
+  onClick: () => void;
+};
+
+const ScrollUpHolder = (props: ScrollUpHolderProps): ReactElement => {
+  const { colors, shapes, dimensions } = useAppTheme();
+
+  return (
+    <View
+      style={[
+        props.style,
+        { overflow: 'hidden', borderRadius: shapes.medium },
+      ]}>
+      <Pressable
         android_ripple={{ color: colors.rippleColor }}
-        overlayViewStyle={{
-          backgroundColor: colors.primary,
-          borderRadius: shapes.medium,
-        }}
+        style={({ pressed }) => [
+          {
+            backgroundColor:
+              Platform.OS === 'ios'
+                ? pressed
+                  ? colors.rippleColor
+                  : colors.primary
+                : colors.primary,
+            borderRadius: shapes.medium,
+          },
+        ]}
         onPress={props.onClick}>
         <View
           style={[
@@ -70,23 +115,27 @@ const ScrollUpItem = (props: ScrollUpItemProps): ReactElement => {
               paddingVertical: dimensions.contentPadding,
             },
           ]}>
-          <MaterialCommunityIcons
-            name="arrow-up"
-            color={colors.onBackground}
-            size={20}
-          />
-          <Text
-            style={[
-              typography.inputLabel,
-              {
-                paddingStart: dimensions.smallPadding,
-              },
-            ]}>
-            {t('scroll_up')}
-          </Text>
+          {props.children}
         </View>
-      </AnimatedPressable>
-    </Animated.View>
+      </Pressable>
+    </View>
+  );
+};
+
+const ScrollUpText = (): ReactElement => {
+  const { dimensions, typography } = useAppTheme();
+
+  return (
+    <TranslatedText
+      textKey="scroll_up"
+      style={[
+        typography.inputLabel,
+        {
+          paddingStart: dimensions.smallPadding,
+          color: 'white',
+        },
+      ]}
+    />
   );
 };
 

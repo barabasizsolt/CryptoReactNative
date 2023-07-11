@@ -38,6 +38,7 @@ const BottomAuthItemBody = (props: BottomAuthItemBodyProps): ReactElement => {
         props.style,
         {
           borderRadius: shapes.large,
+          marginHorizontal: dimensions.screenPadding,
           overflow: 'hidden',
         },
       ]}>
@@ -55,8 +56,6 @@ const BottomAuthItemBody = (props: BottomAuthItemBodyProps): ReactElement => {
                   : colors.background
                 : colors.background,
             minHeight: dimensions.touchTargetSize,
-            paddingHorizontal: dimensions.screenPadding,
-            borderRadius: shapes.large,
           },
         ]}>
         {props.children}

@@ -12,7 +12,11 @@ export const screenStateReducer = <T>(
       return { state: State.FORCE_REFRESHING, data: state.data };
     case Action.SHOW_ERROR:
       if (state.state === State.FORCE_REFRESHING) {
-        return { state: State.SWIPE_REFRESH_ERROR, message: action.message };
+        return {
+          state: State.SWIPE_REFRESH_ERROR,
+          message: action.message,
+          data: state.data,
+        };
       } else {
         return { state: State.LOADING_ERROR, message: action.message };
       }

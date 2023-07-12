@@ -22,7 +22,12 @@ const ErrorContent = (props: ErrorContentProps): ReactElement => {
             paddingTop: dimensions.contentPadding,
           },
         ]}>
-        <PrimaryButton textKey="try_again" onPress={props.onPress} />
+        <PrimaryButton
+          textKey="try_again"
+          onPress={props.onPress}
+          isEnabled={true}
+          isLoading={false}
+        />
       </View>
     </View>
   );

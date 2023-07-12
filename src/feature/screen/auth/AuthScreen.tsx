@@ -18,7 +18,7 @@ const AuthScreen = (): ReactElement => {
   const {
     isLoginScreen,
     screenState,
-    doEmailAndPasswordLogin,
+    doEmailAndPasswordAuth,
     email,
     onEmailChange,
     password,
@@ -75,7 +75,7 @@ const AuthScreen = (): ReactElement => {
                 isLoginEnabled={isLoginButtonEnabled}
                 doLogin={() => {
                   Keyboard.dismiss();
-                  doEmailAndPasswordLogin();
+                  doEmailAndPasswordAuth();
                 }}
               />
             );
@@ -83,7 +83,7 @@ const AuthScreen = (): ReactElement => {
           case 'authButtonItem':
             renderItem = (
               <AuthButtonItem
-                doAuth={doEmailAndPasswordLogin}
+                doAuth={doEmailAndPasswordAuth}
                 isEnabled={isLoginButtonEnabled}
                 isLoading={screenState.state === State.LOADING}
                 forgotPasswordClicked={() => void 0}

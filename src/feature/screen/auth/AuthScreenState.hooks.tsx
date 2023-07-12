@@ -25,7 +25,7 @@ export const useAuthScreenState = () => {
     setIsLoginButtonEnabled(email.length !== 0 && password.length !== 0);
   }, [email, password]);
 
-  const doEmailAndPasswordLogin = useCallback(() => {
+  const doEmailAndPasswordAuth = useCallback(() => {
     screenDispatch({ type: Action.LOAD });
     (isLoginScreen
       ? loginWithEmailAndPassword(email, password)
@@ -52,7 +52,7 @@ export const useAuthScreenState = () => {
   return {
     isLoginScreen,
     screenState,
-    doEmailAndPasswordLogin,
+    doEmailAndPasswordAuth,
     email,
     onEmailChange,
     password,

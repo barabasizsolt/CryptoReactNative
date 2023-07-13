@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "150616005439-0jtqqsv8m3sq1a8qe2g3r96eiksq1lu8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.movareactnative",
+            "certificate_hash": "a0daf18456e479ce098e877451b84461f9c0c3d1"
+          }
+        },
+        {
           "client_id": "150616005439-gd2ds6vlo2n4bg5g34odgmui0dbca95n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -22,7 +30,7 @@
           }
         },
         {
-          "client_id": "150616005439-p0ksvq5f81d76hf8ffil3ub8jvii032p.apps.googleusercontent.com",
+          "client_id": "150616005439-5in0p4kk84t25bghn85oi5d6gc6hbj55.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,8 +43,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "150616005439-p0ksvq5f81d76hf8ffil3ub8jvii032p.apps.googleusercontent.com",
+              "client_id": "150616005439-5in0p4kk84t25bghn85oi5d6gc6hbj55.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "150616005439-lj4ufu0hnjvcri8bph4peh5p48ujlfgq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.CryptoReactNative"
+              }
             }
           ]
         }

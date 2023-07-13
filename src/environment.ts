@@ -5,4 +5,5 @@ export const Environment = {
   iosApiKey: process.env.FIREBASE_IOS_API_KEY,
   iosAppId: process.env.FIREBASE_IOS_APP_ID,
   projectId: process.env.FIREBASE_PROJECT_ID,
+  webClientId: process.env.WEB_CLIENT_ID,
 };

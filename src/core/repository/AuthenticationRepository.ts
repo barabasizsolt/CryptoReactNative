@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Platform } from 'react-native';
 import firebase, { ReactNativeFirebase } from '@react-native-firebase/app';
 import { Environment } from '../../environment';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export const loginWithEmailAndPassword = async (
   email: string,
@@ -89,24 +90,69 @@ export const registerWithEmailAndPassword = async (
         default:
           return {
             kind: ResultType.Failure,
-            errorMessage: 'Something went wrong',
+            errorMessage: 'Something went wrong.',
           };
       }
     } else {
-      return { kind: ResultType.Failure, errorMessage: 'Something went wrong' };
+      return {
+        kind: ResultType.Failure,
+        errorMessage: 'Something went wrong.',
+      };
     }
+  }
+};
+
+/* TODO: Could be refactored with .then .catch */
+export const authenticateWithGoogle = async (): Promise<
+  Result<FirebaseAuthTypes.User>
+> => {
+  try {
+    const hasPlayService = await GoogleSignin.hasPlayServices({
+      showPlayServicesUpdateDialog: true,
+    });
+    if (!hasPlayService) {
+      return {
+        kind: ResultType.Failure,
+        errorMessage: 'Google Play Services are not available.',
+      };
+    }
+    try {
+      const { idToken } = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      try {
+        const result = await auth().signInWithCredential(googleCredential);
+        return { kind: ResultType.Success, data: result.user };
+      } catch (error: any) {
+        return {
+          kind: ResultType.Failure,
+          errorMessage: 'Google Sign In failed.',
+        };
+      }
+    } catch (error: any) {
+      return {
+        kind: ResultType.Failure,
+        errorMessage: 'Google Sign In failed.',
+      };
+    }
+  } catch (error: any) {
+    return {
+      kind: ResultType.Failure,
+      errorMessage: 'Could not authenticate with Google.',
+    };
   }
 };
 
 export const logOut = async (): Promise<Result<void>> => {
   try {
     await auth().signOut();
+    await GoogleSignin.signOut();
     return { kind: ResultType.Success };
   } catch (error: any) {
-    return { kind: ResultType.Failure, errorMessage: 'Could not log out.' };
+    return { kind: ResultType.Failure, errorMessage: 'Could not sign out.' };
   }
 };
 
+/* Observes authentication changes(signIn/signOut) & Initialize Social Auth */
 export const useAuthStateChange = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -127,6 +173,14 @@ export const useAuthStateChange = () => {
     }
   }, []);
 
+  /* Initialize Google Sign In */
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: Environment.webClientId,
+    });
+  }, []);
+
+  /* Observes autentication changes & updates the store accordingly */
   useEffect(() => {
     auth().onAuthStateChanged((user: FirebaseAuthTypes.User | null) => {
       setIsLoading(false);

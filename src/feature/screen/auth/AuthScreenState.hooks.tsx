@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { screenStateReducer } from '../../components/state/reducer';
 import { ScreenState, State } from '../../components/state/state';
 import {
+  authenticateWithGoogle,
   loginWithEmailAndPassword,
   registerWithEmailAndPassword,
 } from '../../../core/repository/AuthenticationRepository';
@@ -45,6 +46,23 @@ export const useAuthScreenState = () => {
     });
   }, [dispatch, email, password, isLoginScreen]);
 
+  const doGoogleAuth = useCallback(() => {
+    screenDispatch({ type: Action.LOAD });
+    authenticateWithGoogle().then(result => {
+      switch (result.kind) {
+        case ResultType.Success:
+          dispatch({ type: 'LOG_IN' });
+          break;
+        case ResultType.Failure:
+          screenDispatch({
+            type: Action.SHOW_AUTH_ERROR,
+            message: result.errorMessage || 'Something went wrong',
+          });
+          break;
+      }
+    });
+  }, [dispatch]);
+
   const onBottomAuthButtonClicked = useCallback(() => {
     setIsLoginScreen(!isLoginScreen);
   }, [isLoginScreen]);
@@ -53,6 +71,7 @@ export const useAuthScreenState = () => {
     isLoginScreen,
     screenState,
     doEmailAndPasswordAuth,
+    doGoogleAuth,
     email,
     onEmailChange,
     password,

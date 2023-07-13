@@ -19,6 +19,7 @@ const AuthScreen = (): ReactElement => {
     isLoginScreen,
     screenState,
     doEmailAndPasswordAuth,
+    doGoogleAuth,
     email,
     onEmailChange,
     password,
@@ -52,7 +53,7 @@ const AuthScreen = (): ReactElement => {
             renderItem = <HeaderItem isLoginScreen={isLoginScreen} />;
             break;
           case 'googleLoginButtonItem':
-            renderItem = <GoogleButtonItem onPress={() => void 0} />;
+            renderItem = <GoogleButtonItem onPress={doGoogleAuth} />;
             break;
           case 'dividerItem':
             renderItem = <DividerItem />;

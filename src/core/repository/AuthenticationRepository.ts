@@ -174,10 +174,14 @@ export const useAuthStateChange = () => {
   }, []);
 
   /* Initialize Google Sign In */
+  /* TODO: I'll implement the IOS part also, when the Apple Developer subscription
+  won't be 499 RON/year :))) */
   useEffect(() => {
-    GoogleSignin.configure({
-      webClientId: Environment.webClientId,
-    });
+    if (Platform.OS === 'android') {
+      GoogleSignin.configure({
+        webClientId: Environment.webClientId,
+      });
+    }
   }, []);
 
   /* Observes autentication changes & updates the store accordingly */

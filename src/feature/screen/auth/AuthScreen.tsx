@@ -1,5 +1,5 @@
 import React, { ReactElement, useRef, useEffect } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, Platform } from 'react-native';
 import { useAuthScreenState } from './AuthScreenState.hooks';
 import { State } from '../../components/state/state';
 import { EdgeToEdgeScrollableContent } from '../../components/catalog/EdgeToEdgeScrollableContent';
@@ -53,7 +53,13 @@ const AuthScreen = (): ReactElement => {
             renderItem = <HeaderItem isLoginScreen={isLoginScreen} />;
             break;
           case 'googleLoginButtonItem':
-            renderItem = <GoogleButtonItem onPress={doGoogleAuth} />;
+            renderItem = (
+              <GoogleButtonItem
+                onPress={() => {
+                  Platform.OS === 'android' ? doGoogleAuth() : void 0;
+                }}
+              />
+            );
             break;
           case 'dividerItem':
             renderItem = <DividerItem />;

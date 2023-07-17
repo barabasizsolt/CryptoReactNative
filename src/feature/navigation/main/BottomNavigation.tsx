@@ -22,6 +22,7 @@ const BottomTabNavigator = () => {
         headerShown: false,
         tabBarActiveTintColor: colors.bottomNavSelected,
         tabBarInactiveTintColor: colors.bottomNavNotSelected,
+        tabBarLabelPosition: 'below-icon',
         tabBarStyle: {
           height: dimensions.bottomNavBarHeight + insets.bottom,
           paddingVertical: dimensions.smallPadding,

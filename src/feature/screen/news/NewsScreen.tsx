@@ -6,11 +6,14 @@ import Snackbar from 'react-native-snackbar';
 import { useTranslation } from 'react-i18next';
 import { ReactElement, useEffect } from 'react';
 import { State } from '../../components/state/state';
+import { useWindowWidthClass } from '../../components/windowsize/windowSizeContext';
+import { WindowType } from '../../components/windowsize/windowTypes';
 
 export const NewsScreen = (): ReactElement => {
   const { t } = useTranslation();
   const { state, getNews, swipeRefreshAction, loadAction } =
     useNewsScreenState();
+  const windowWidthClass = useWindowWidthClass();
 
   useEffect(() => {
     if (state.state === State.SWIPE_REFRESH_ERROR) {
@@ -38,9 +41,8 @@ export const NewsScreen = (): ReactElement => {
       showPaddingHorizontal={true}
       showExtraBottomPadding={false}
       itemSeparator="space"
-      renderItem={({ item }) => {
-        return <NewsCard news={item as News} />;
-      }}
+      renderItem={({ item }) => <NewsCard news={item as News} />}
+      numColumn={windowWidthClass === WindowType.Compact ? 1 : 2}
     />
   );
 };

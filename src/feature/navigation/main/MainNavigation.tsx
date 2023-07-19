@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import BottomTabNavigator from './BottomNavigation';
+import BottomTabNavigator from './RailsOrBottomNavigation';
 import CryptoCurrencyDetailScreen from '../../screen/cryptodetail/CryptoCurrencyDetailScreen';
 import { AppNavParamList } from '../types';
 

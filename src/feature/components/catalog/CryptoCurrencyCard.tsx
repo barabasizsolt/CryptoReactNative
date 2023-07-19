@@ -1,9 +1,18 @@
-import React, { ReactNode, memo } from 'react';
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import React, { ReactNode, memo, useEffect, useState } from 'react';
+import {
+  DimensionValue,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { useAppTheme } from '../../theme/ThemeContext';
 import { ReactElement } from 'react';
 import FastImage from 'react-native-fast-image';
 import { PressableCard } from './PressableCard';
+import { useWindowWidthClass } from '../windowsize/windowSizeContext';
+import { WindowType } from '../windowsize/windowTypes';
 
 type CryptoCurrencyProps = {
   name: string;
@@ -17,8 +26,24 @@ type CryptoCurrencyProps = {
 };
 
 const CryptoCurrencyCard = (props: CryptoCurrencyProps): ReactElement => {
+  const windowWidthClass = useWindowWidthClass();
+  const { dimensions } = useAppTheme();
+  const [width, setWidth] = useState<DimensionValue>(
+    windowWidthClass === WindowType.Compact ? '100%' : '50%',
+  );
+
+  useEffect(() => {
+    setWidth(windowWidthClass === WindowType.Compact ? '100%' : '50%');
+  }, [windowWidthClass]);
+
   return (
-    <PressableCard onItemClick={props.onItemClick}>
+    <PressableCard
+      onItemClick={props.onItemClick}
+      style={{
+        width: width,
+        padding:
+          windowWidthClass === WindowType.Compact ? 0 : dimensions.smallPadding,
+      }}>
       <CryptoCurrencyHolder>
         <CryptoCurrencyLogo {...props} />
         <CryptoCurrencyPrice {...props} />

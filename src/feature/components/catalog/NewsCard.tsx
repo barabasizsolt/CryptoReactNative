@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from 'react-native';
+import { DimensionValue, StyleSheet, Text } from 'react-native';
 import { News } from '../../../core/model/news/News';
 import { useAppTheme } from '../../theme/ThemeContext';
 import { openUrl } from '../../util/OpenUrl';
@@ -12,13 +12,13 @@ type NewsCardProps = { news: News };
 
 const NewsCard = (props: NewsCardProps): ReactElement => {
   const windowWidthClass = useWindowWidthClass();
-  const [width, setWidth] = useState<string>(
+  const { dimensions } = useAppTheme();
+  const [width, setWidth] = useState<DimensionValue>(
     windowWidthClass === WindowType.Compact ? '100%' : '50%',
   );
   const [maxLine, setMaxLine] = useState<number>(
     windowWidthClass === WindowType.Compact ? 3 : 1,
   );
-  const { dimensions } = useAppTheme();
 
   useEffect(() => {
     setWidth(windowWidthClass === WindowType.Compact ? '100%' : '50%');

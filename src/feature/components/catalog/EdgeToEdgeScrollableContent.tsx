@@ -8,7 +8,7 @@ import ErrorContent from './ErrorContent';
 import { useScrollToTop } from '@react-navigation/native';
 import ScrollUpItem from './ScrollUpItem';
 import { ReactElement } from 'react';
-import { useKeyboard } from '../hooks/keyboard';
+import { useKeyboard } from '../hooks/keyboard.hooks';
 
 export type ItemSeparator = 'space' | 'divider' | 'undefined';
 
@@ -20,6 +20,7 @@ export type EdgeToEdgeScrollableContent = {
   onRefresh: () => void;
   listItems: ArrayLike<ListItem> | null | undefined;
   renderItem: ListRenderItem<ListItem> | null | undefined;
+  numColumn?: number;
   showPaddingHorizontal: boolean;
   showExtraBottomPadding: boolean;
   itemSeparator: ItemSeparator;
@@ -86,8 +87,9 @@ export const EdgeToEdgeScrollableContent = (
           renderItem={props.renderItem}
           ListHeaderComponent={header}
           ListFooterComponent={footer}
-          numColumns={1}
+          numColumns={props.numColumn !== undefined ? props.numColumn : 1}
           keyExtractor={item => item.id}
+          key={props.numColumn}
           contentContainerStyle={{
             paddingHorizontal: props.showPaddingHorizontal
               ? dimensions.contentPadding

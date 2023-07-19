@@ -9,6 +9,8 @@ import {
 import rootReducer from './src/core/redux/reducers';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
+import Orientation from 'react-native-orientation-locker';
+import DeviceInfo from 'react-native-device-info';
 
 initializeLocalization();
 const store = configureStore({ reducer: rootReducer });
@@ -19,6 +21,13 @@ const App = (): JSX.Element => {
   useEffect(() => {
     onLanguageChange(languageCode);
   }, [languageCode]);
+
+  /* Lock orientation on phones: [Not working on IOS, IOS: disabled from xCode] */
+  useEffect(() => {
+    if (!DeviceInfo.isTablet()) {
+      Orientation.lockToPortrait();
+    }
+  }, []);
 
   return (
     <Provider store={store}>

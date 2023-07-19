@@ -3,21 +3,24 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NewsScreen } from '../../screen/news/NewsScreen';
 import { useAppTheme } from '../../theme/ThemeContext';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavParamList } from '../types';
 import CryptoCurrencyScreen from '../../screen/crypto/CryptoCurrencyScreen';
 import { TranslatedText } from '../../components/catalog/TranslatedText';
 import { ReactElement } from 'react';
 import SettingsScreen from '../../screen/settings/SettingsScreen';
+import createRailsOrBottomTabNavigator from './rails/RailsOrBottomTabNavigator';
+import { useWindowWidthClass } from '../../components/windowsize/windowSizeContext';
+import { WindowType } from '../../components/windowsize/windowTypes';
 
-const Tab = createBottomTabNavigator<BottomNavParamList>();
+const TabOrRails = createRailsOrBottomTabNavigator<BottomNavParamList>();
 
 const BottomTabNavigator = () => {
   const insets = useSafeAreaInsets();
   const { colors, dimensions } = useAppTheme();
+  const windowClassWidth = useWindowWidthClass();
 
   return (
-    <Tab.Navigator
+    <TabOrRails.Navigator
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.bottomNavSelected,
@@ -31,27 +34,28 @@ const BottomTabNavigator = () => {
           backgroundColor: colors.background,
         },
       }}
-      initialRouteName="Market">
-      <Tab.Screen
+      initialRouteName="Market"
+      useTab={windowClassWidth <= WindowType.Compact}>
+      <TabOrRails.Screen
         name="Market"
         component={CryptoCurrencyScreen}
         options={{
-          tabBarLabel: ({ color }) => (
+          tabBarLabel: ({ color }: { color: string }) => (
             <TabBarLabel translatedTextKey="label_market" color={color} />
           ),
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <Fontisto name="bitcoin" color={color} size={size} />
           ),
         }}
       />
-      <Tab.Screen
+      <TabOrRails.Screen
         name="News"
         component={NewsScreen}
         options={{
-          tabBarLabel: ({ color }) => (
+          tabBarLabel: ({ color }: { color: string }) => (
             <TabBarLabel translatedTextKey="label_news" color={color} />
           ),
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <MaterialCommunityIcons
               name="newspaper"
               color={color}
@@ -60,14 +64,14 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
+      <TabOrRails.Screen
         name="Settings"
         component={SettingsScreen}
         options={{
-          tabBarLabel: ({ color }) => (
+          tabBarLabel: ({ color }: { color: string }) => (
             <TabBarLabel translatedTextKey="label_settings" color={color} />
           ),
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, size }: { color: string; size: number }) => (
             <MaterialCommunityIcons
               name="cog-outline"
               color={color}
@@ -76,7 +80,7 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
-    </Tab.Navigator>
+    </TabOrRails.Navigator>
   );
 };
 

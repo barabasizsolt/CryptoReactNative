@@ -12,6 +12,8 @@ import { useTranslation } from 'react-i18next';
 import { ReactElement } from 'react';
 import { useCryptoCurrencyScreenState } from './CryptoCurrencyScreenState.hooks';
 import { State } from '../../components/state/state';
+import { useWindowWidthClass } from '../../components/windowsize/windowSizeContext';
+import { WindowType } from '../../components/windowsize/windowTypes';
 
 const CryptoCurrencyScreen = ({
   navigation,
@@ -19,6 +21,7 @@ const CryptoCurrencyScreen = ({
   const { t } = useTranslation();
   const { state, getCryptoCurrencies, swipeRefreshAction, loadAction } =
     useCryptoCurrencyScreenState();
+  const windowWidthClass = useWindowWidthClass();
 
   useEffect(() => {
     if (state.state === State.SWIPE_REFRESH_ERROR) {
@@ -65,6 +68,7 @@ const CryptoCurrencyScreen = ({
           />
         );
       }}
+      numColumn={windowWidthClass === WindowType.Compact ? 1 : 2}
     />
   );
 };

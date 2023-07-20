@@ -16,7 +16,6 @@ export const GoogleButtonItem = (
     <View
       style={{
         width: '100%',
-        paddingHorizontal: dimensions.screenPadding,
         paddingTop: dimensions.screenPadding + dimensions.contentPadding,
       }}>
       <GoogleLoginButton onPress={props.onPress} />

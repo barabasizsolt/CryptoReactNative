@@ -1,4 +1,4 @@
-import React, { ReactElement, useRef, useEffect } from 'react';
+import React, { ReactElement, useRef, useEffect, useState } from 'react';
 import { Keyboard, Platform } from 'react-native';
 import { useAuthScreenState } from './AuthScreenState.hooks';
 import { State } from '../../components/state/state';
@@ -13,6 +13,9 @@ import { EmailInputItem } from './catalog/EmailInputItem';
 import { PasswordInputItem } from './catalog/PasswordInputItem';
 import { AuthButtonItem } from './catalog/AuthButtonItem';
 import { BottomAuthItem } from './catalog/BottomAuthItem';
+import { useWindowWidthClass } from '../../components/windowsize/windowSizeContext';
+import { WindowType } from '../../components/windowsize/windowTypes';
+import { useAppTheme } from '../../theme/ThemeContext';
 
 const AuthScreen = (): ReactElement => {
   const {
@@ -28,6 +31,8 @@ const AuthScreen = (): ReactElement => {
     onBottomAuthButtonClicked,
   } = useAuthScreenState();
   const passwordInputRef = useRef<TextInput>(null);
+  const windowWidthClass = useWindowWidthClass();
+  const { dimensions } = useAppTheme();
 
   useEffect(() => {
     if (screenState.state === State.AUTH_ERROR) {
@@ -37,6 +42,20 @@ const AuthScreen = (): ReactElement => {
       });
     }
   }, [screenState]);
+
+  const [paddingHorizontal, setPaddingHorizontal] = useState<number>(
+    windowWidthClass === WindowType.Extended
+      ? dimensions.screenPadding * 8
+      : dimensions.screenPadding,
+  );
+
+  useEffect(() => {
+    setPaddingHorizontal(
+      windowWidthClass === WindowType.Extended
+        ? dimensions.screenPadding * 8
+        : dimensions.screenPadding,
+    );
+  }, [windowWidthClass, dimensions.screenPadding]);
 
   return (
     <EdgeToEdgeScrollableContent
@@ -111,9 +130,10 @@ const AuthScreen = (): ReactElement => {
         }
         return renderItem;
       }}
-      showPaddingHorizontal={false}
+      showPaddingHorizontal={true}
       showExtraBottomPadding={true}
       itemSeparator={'undefined'}
+      extraPaddingHorizontal={paddingHorizontal}
     />
   );
 };

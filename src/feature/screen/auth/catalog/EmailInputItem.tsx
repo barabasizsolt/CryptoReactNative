@@ -21,7 +21,6 @@ export const EmailInputItem = forwardRef<TextInput, EmailInputItemProps>(
     return (
       <View
         style={{
-          paddingHorizontal: dimensions.screenPadding,
           paddingTop: dimensions.screenPadding + dimensions.contentPadding,
           paddingBottom: dimensions.contentPadding,
         }}>

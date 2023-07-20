@@ -27,6 +27,7 @@ export type EdgeToEdgeScrollableContent = {
   showExtraBottomPadding: boolean;
   itemSeparator: ItemSeparator;
   spaceHeight?: number;
+  extraPaddingHorizontal?: number;
 };
 
 export const EdgeToEdgeScrollableContent = (
@@ -114,7 +115,7 @@ export const EdgeToEdgeScrollableContent = (
           key={props.numColumn}
           contentContainerStyle={{
             paddingHorizontal: props.showPaddingHorizontal
-              ? dimensions.contentPadding
+              ? props.extraPaddingHorizontal ?? dimensions.contentPadding
               : 0,
             backgroundColor: colors.background,
           }}

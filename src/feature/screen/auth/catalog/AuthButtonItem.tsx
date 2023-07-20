@@ -43,7 +43,6 @@ const AuthButtonBody = (props: AuthButtonBodyProps): ReactElement => {
           width: '100%',
           flexDirection: 'column',
           gap: dimensions.smallPadding,
-          paddingHorizontal: dimensions.screenPadding,
           paddingTop: dimensions.screenPadding * 2,
         },
       ]}>

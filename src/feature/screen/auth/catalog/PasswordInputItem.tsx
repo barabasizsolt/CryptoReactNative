@@ -54,18 +54,7 @@ type PasswordItemHolderProps = {
 };
 
 const PasswordItemHolder = (props: PasswordItemHolderProps): ReactElement => {
-  const { dimensions } = useAppTheme();
-
-  return (
-    <View
-      style={[
-        props.style,
-        styles.holder,
-        { paddingHorizontal: dimensions.screenPadding },
-      ]}>
-      {props.children}
-    </View>
-  );
+  return <View style={[props.style, styles.holder]}>{props.children}</View>;
 };
 
 type PasswordIconProps = {

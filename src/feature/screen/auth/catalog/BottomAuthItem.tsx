@@ -38,7 +38,7 @@ const BottomAuthItemBody = (props: BottomAuthItemBodyProps): ReactElement => {
         props.style,
         {
           borderRadius: shapes.large,
-          marginHorizontal: dimensions.screenPadding,
+          //marginHorizontal: dimensions.screenPadding,
           overflow: 'hidden',
         },
       ]}>

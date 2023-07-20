@@ -22,14 +22,7 @@ const DividerBody = (props: DividerBodyProps): ReactElement => {
   const { dimensions } = useAppTheme();
 
   return (
-    <View
-      style={[
-        props.style,
-        {
-          paddingTop: dimensions.screenPadding,
-          paddingHorizontal: dimensions.screenPadding,
-        },
-      ]}>
+    <View style={[props.style, { paddingTop: dimensions.screenPadding }]}>
       <View style={{ alignItems: 'center' }}>{props.children}</View>
     </View>
   );
